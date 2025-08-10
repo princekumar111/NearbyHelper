@@ -1,0 +1,28 @@
+.footer {
+    background-color: #1f1f1f;
+    color: #ccc;
+}
+
+.footer h5 {
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.footer ul li {
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.footer ul li:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer a {
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.footer a:hover {
+    color: #ff6b6b;
+}
