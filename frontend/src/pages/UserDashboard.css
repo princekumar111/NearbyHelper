@@ -1,28 +1,142 @@
-.footer {
-    background-color: #1f1f1f;
-    color: #ccc;
+/* Page Background White */
+
+.dashboard-container {
+    background-color: white;
+    /* color: rgba(84, 84, 84, 1); */
+    /* keep text black */
+    margin: 100px;
+    /* adds space from all sides */
+    border-radius: 100px;
+    /* optional: rounded edges */
 }
 
-.footer h5 {
-    color: #fff;
-    margin-bottom: 1rem;
+
+/* Service Card Styling */
+
+.service-card {
+    background-color: hsl(0, 0%, 90%);
+    /* light gray */
+    border-radius: 12px;
+    border: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: black;
 }
 
-.footer ul li {
-    margin-bottom: 0.5rem;
-    cursor: pointer;
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
-.footer ul li:hover {
-    color: #fff;
-    text-decoration: underline;
+
+/* Service Icon */
+
+.service-icon {
+    font-size: 2.5rem;
+    color: rgba(84, 84, 84, 1);
 }
 
-.footer a {
-    font-size: 1.2rem;
-    transition: 0.3s;
+
+/* Welcome Box Styling */
+
+.welcome-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    /* Adjust space below */
+    margin-top: -150px;
+    color: black;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    /* Horizontal line */
+    padding-bottom: 1.5rem;
+    /* Space above the line */
 }
 
-.footer a:hover {
-    color: #ff6b6b;
+
+/* ====== Footer ====== */
+
+.custom-footer {
+    background-color: hsl(0, 0%, 90%);
+    /* dark background */
+    /* color: #fff; */
+    /* white text */
+    /* text-align: center; */
+    /* center text */
+    padding: 20px 10px;
+    margin-top: 20px;
+}
+
+.custom-footer a {
+    color: #ffcc00;
+    /* link color */
+    text-decoration: none;
+    /* margin-left: 100px; */
+    margin: 0 10px;
+}
+
+
+/* Custom button style */
+
+.btn-primary {
+    background-color: hsl(0, 0%, 90%) !important;
+    /* Custom orange color */
+    border-color: hsl(0, 0%, 90%) !important;
+    color: black !important;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e65c00 !important;
+    /* Slightly darker on hover */
+    /* border-color: #e65c00 !important; */
+    transform: translateY(-2px);
+    /* Lift effect */
+}
+
+.text-light {
+    color: black;
+}
+
+
+/* GIF Banner Section */
+
+.gif-banner {
+    position: relative;
+    width: 100%;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin: 20px auto;
+}
+
+.gif-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.gif-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.4);
+    /* transparent overlay */
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+
+.gif-text h2 {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.gif-text p {
+    font-size: 16px;
+    margin-top: 10px;
 }

@@ -1,0 +1,98 @@
+.custom-navbar {
+    background-color: hsl(0, 0%, 90%) !important;
+}
+
+.custom-navbar .nav-link,
+.custom-navbar .navbar-brand,
+.custom-navbar span {
+    color: #000 !important;
+    /* black text for readability */
+}
+
+.bg-verylight {
+    background-color: hsl(0, 0%, 90%) !important;
+}
+
+
+/* Lock navbar height and center content */
+
+.nh-navbar.navbar {
+    height: 60px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    /* prevents tall children from stretching navbar */
+}
+
+
+/* Brand area spacing */
+
+.nh-navbar .nh-brand {
+    display: flex;
+    align-items: center;
+    padding: 0 !important;
+    margin-right: 16px;
+}
+
+
+/* Logo size is independent of navbar height */
+
+.nh-navbar .logo {
+    background-color: hsl(0, 0%, 90%);
+    height: 90px !important;
+    /* change this freely */
+    margin-left: -18px;
+    width: auto !important;
+    display: block;
+    object-fit: contain;
+}
+
+
+/* Links: Dashboard, My Booking, etc. */
+
+.nh-navbar .navbar-nav .nav-link {
+    padding: 0 12px !important;
+    line-height: 60px !important;
+    /* vertically centered text */
+    font-size: 15px;
+    font-weight: 500;
+}
+
+
+/* Compact search box */
+
+.nh-navbar .form-control {
+    height: 32px;
+    font-size: 14px;
+    padding: 4px 8px;
+}
+
+
+/* Optional: tweak on mobile */
+
+@media (max-width: 991.98px) {
+    .nh-navbar.navbar {
+        height: 56px !important;
+    }
+    .nh-navbar .navbar-nav .nav-link {
+        line-height: 56px !important;
+    }
+}
+
+
+/* Add left margin to first link in user/admin/provider menu */
+
+.nh-navbar .navbar-nav .nav-item:first-child {
+    margin-left: -10px;
+    /* adjust px as needed */
+}
+
+
+/* Optional: add spacing between links */
+
+.nh-navbar .navbar-nav .nav-item {
+    margin-right: 12px;
+    /* space between links */
+}

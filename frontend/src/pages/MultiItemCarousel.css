@@ -1,0 +1,160 @@
+.nh-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    /* center nicely on wide screens */
+    margin-inline: auto;
+}
+
+.nh-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.nh-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+    will-change: transform;
+}
+
+.nh-slide {
+    flex: 0 0 auto;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.nh-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    background: #fff;
+}
+
+.nh-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+}
+
+.nh-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, .55) 100%);
+    color: #fff;
+}
+
+.nh-caption h5 {
+    margin: 0 0 4px 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.nh-caption p {
+    margin: 0;
+    font-size: 0.875rem;
+    opacity: 0.9;
+}
+
+.nh-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.nh-arrow:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.nh-arrow.left {
+    left: 8px;
+}
+
+.nh-arrow.right {
+    right: 8px;
+}
+
+
+/* Responsive image height tweaks */
+
+@media (max-width: 1199px) {
+    .nh-card img {
+        height: 240px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nh-card img {
+        height: 220px;
+    }
+}
+
+.carousel-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.left-btn,
+.right-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+.nh-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.nh-dot {
+    width: 10px;
+    height: 10px;
+    background: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.nh-dot.active {
+    background: #333;
+}
