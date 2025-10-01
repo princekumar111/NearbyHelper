@@ -1,0 +1,12 @@
+.contact-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.contact-container h2 {
+    font-weight: 600;
+}
+
+.card {
+    border-radius: 12px;
+}

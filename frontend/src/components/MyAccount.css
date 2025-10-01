@@ -1,0 +1,13 @@
+.myaccount-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.myaccount-container h2 {
+    text-align: center;
+    font-weight: 600;
+}
+
+.card {
+    border-radius: 12px;
+}
