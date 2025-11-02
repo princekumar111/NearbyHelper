@@ -80,7 +80,7 @@ const Contacts = () => {
             <h4>Get in Touch</h4>
             <p>We’d love to hear from you! Reach out to us with any questions or inquiries.</p>
             <ul className="list-unstyled">
-              <li><strong>Address:</strong> 123 NearbyHelper Street, City, Country</li>
+              <li><strong>Address:</strong> Knowledge Park II Greater Noida 201310 India</li>
               <li><strong>Email:</strong> support@nearbyhelper.com</li>
               <li><strong>Phone:</strong> +1 (555) 123-4567</li>
               <li><strong>Working Hours:</strong> Mon-Fri, 9:00 AM - 6:00 PM</li>

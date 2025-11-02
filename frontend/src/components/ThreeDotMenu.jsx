@@ -110,6 +110,7 @@ const ThreeDotMenu = () => {
             <Link to="/AboutUs" className="menu-item" onClick={handleLinkClick}><span className="menu-item-icon">ℹ️</span> About Us</Link>
             <Link to="/MyAccount" className="menu-item" onClick={handleLinkClick}><span className="menu-item-icon">👤</span> My Account</Link>
             <Link to="/Contacts" className="menu-item" onClick={handleLinkClick}><span className="menu-item-icon">📞</span> Contact Us</Link>
+            <Link to="/bookings" className="menu-item" onClick={handleLinkClick}><span className="menu-item-icon">📝</span> My Bookings</Link>
           </div>
         </div>
       </div>

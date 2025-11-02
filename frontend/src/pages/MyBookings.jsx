@@ -39,7 +39,7 @@ const MyBookings = () => {
       fetchBookings();
     } catch (err) {
       console.error('❌ Cancel error:', err.message);
-      alert('Failed to cancel booking');
+      alert('Failed to cancel booking, Please choose another time slot');
     } finally {
       setCancellingId(null);
     }
