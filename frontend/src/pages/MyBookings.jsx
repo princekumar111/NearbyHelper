@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 // import React, { useEffect, useState } from 'react';
 // import API from '../utils/axios';
@@ -181,6 +182,8 @@
 //   );
 // };
 
+=======
+>>>>>>> 0b584ca3 (new)
 // export default MyBookings;
 import React, { useEffect, useState } from 'react';
 import API from '../utils/axios';
@@ -291,6 +294,7 @@ const MyBookings = () => {
           return (
             <div key={booking._id} className="card mb-3">
               <div className="card-body">
+<<<<<<< HEAD
                 
                 <h5 className="card-title">
                   {provider?.category || "Service"} –{" "}
@@ -324,6 +328,40 @@ const MyBookings = () => {
                   </button>
                 )}
 
+=======
+
+                <h5 className="card-title">
+                  {provider?.category || "Service"} –{" "}
+                  <span className={`text-${
+                    booking.status === "cancelled"
+                      ? "danger"
+                      : booking.status === "completed"
+                      ? "success"
+                      : "primary"
+                  }`}>
+                    {formatStatus(booking.status)}
+                  </span>
+                </h5>
+
+                <p className="card-text">
+                  <strong>Name:</strong> {safeName(provider)} <br />
+                  <strong>Contact:</strong> {provider?.contact || "N/A"} <br />
+                  <strong>Location:</strong> {safeLocation(provider)} <br />
+                  <strong>Date:</strong> {new Date(booking.date).toLocaleString()}
+                </p>
+
+                {/* CANCEL */}
+                {["pending", "confirmed"].includes(booking.status.toLowerCase()) && (
+                  <button
+                    onClick={() => cancelBooking(booking._id)}
+                    className="btn btn-danger"
+                    disabled={cancellingId === booking._id}
+                  >
+                    {cancellingId === booking._id ? "Cancelling..." : "Cancel Booking"}
+                  </button>
+                )}
+
+>>>>>>> 0b584ca3 (new)
                 {/* REVIEW FORM */}
                 {booking.status === "completed" && !booking.hasReview && (
                   <div className="mt-3">
