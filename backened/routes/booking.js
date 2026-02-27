@@ -148,6 +148,36 @@ router.get('/provider', auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/bookings/provider/:providerId?date=YYYY-MM-DD
+// @desc    Get booked time slots for a specific provider & date
+// @access  Public or auth
+router.get("/provider/:providerId", async (req, res) => {
+  try {
+    const { providerId } = req.params;
+    const { date } = req.query;
+
+    if (!date) {
+      return res.status(400).json({ msg: "Date is required" });
+    }
+
+    const start = new Date(`${date}T00:00:00`);
+    const end = new Date(`${date}T23:59:59`);
+
+    const bookings = await Booking.find({
+      providerId,
+      date: {
+        $gte: start,
+        $lte: end,
+      },
+    }).select("date status");
+
+    res.json(bookings);
+  } catch (err) {
+    console.error("❌ Error in provider date lookup:", err.message);
+    res.status(500).json({ msg: "Server error" });
+  }
+});
+
 
 // @route   PUT /api/bookings/:id/status
 // @desc    Provider updates booking status (accept/reject/complete)
@@ -266,10 +296,9 @@ router.get('/provider/history', auth, async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 module.exports = router;
+
+
+
+
+
