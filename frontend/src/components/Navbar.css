@@ -1,3 +1,5 @@
+/* ================= NAVBAR BASE ================= */
+
 .custom-navbar {
     background-color: hsl(0, 0%, 90%) !important;
 }
@@ -6,15 +8,9 @@
 .custom-navbar .navbar-brand,
 .custom-navbar span {
     color: #000 !important;
-    /* black text for readability */
 }
 
-.bg-verylight {
-    background-color: hsl(0, 0%, 90%) !important;
-}
-
-
-/* Lock navbar height and center content */
+/* ================= LOCK NAVBAR HEIGHT ================= */
 
 .nh-navbar.navbar {
     height: 60px !important;
@@ -22,12 +18,12 @@
     padding-bottom: 0 !important;
     display: flex;
     align-items: center;
-    overflow: hidden;
-    /* prevents tall children from stretching navbar */
+
+    /* 🔥 IMPORTANT FIX */
+    overflow: visible !important;
 }
 
-
-/* Brand area spacing */
+/* ================= BRAND ================= */
 
 .nh-navbar .nh-brand {
     display: flex;
@@ -36,32 +32,33 @@
     margin-right: 16px;
 }
 
-
-/* Logo size is independent of navbar height */
-
 .nh-navbar .logo {
     background-color: hsl(0, 0%, 90%);
     height: 90px !important;
-    /* change this freely */
     margin-left: -18px;
     width: auto !important;
     display: block;
     object-fit: contain;
 }
 
-
-/* Links: Dashboard, My Booking, etc. */
+/* ================= NAV LINKS ================= */
 
 .nh-navbar .navbar-nav .nav-link {
     padding: 0 12px !important;
     line-height: 60px !important;
-    /* vertically centered text */
     font-size: 15px;
     font-weight: 500;
 }
 
+.nh-navbar .navbar-nav .nav-item:first-child {
+    margin-left: -10px;
+}
 
-/* Compact search box */
+.nh-navbar .navbar-nav .nav-item {
+    margin-right: 12px;
+}
+
+/* ================= SEARCH INPUT ================= */
 
 .nh-navbar .form-control {
     height: 32px;
@@ -69,30 +66,31 @@
     padding: 4px 8px;
 }
 
+/* ================= DROPDOWN FIX ================= */
 
-/* Optional: tweak on mobile */
+.list-group {
+    z-index: 9999 !important;
+    position: absolute;
+    background: white;
+    border-radius: 4px;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* ================= RESPONSIVE ================= */
 
 @media (max-width: 991.98px) {
     .nh-navbar.navbar {
         height: 56px !important;
     }
+
     .nh-navbar .navbar-nav .nav-link {
         line-height: 56px !important;
     }
-}
-
-
-/* Add left margin to first link in user/admin/provider menu */
-
-.nh-navbar .navbar-nav .nav-item:first-child {
-    margin-left: -10px;
-    /* adjust px as needed */
-}
-
-
-/* Optional: add spacing between links */
-
-.nh-navbar .navbar-nav .nav-item {
-    margin-right: 12px;
-    /* space between links */
 }

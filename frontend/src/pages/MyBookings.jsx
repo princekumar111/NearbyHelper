@@ -1,43 +1,240 @@
-import React, { useEffect, useState } from 'react';
-import API from '../utils/axios';
-import Navbar from '../components/Navbar';
+
+
+// import React, { useEffect, useState } from "react";
+// import API from "../utils/axios";
+// import Navbar from "../components/Navbar";
+// import "./MyBooking.css";
+
+// const MyBookings = () => {
+//   const [bookings, setBookings] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState("");
+//   const [cancellingId, setCancellingId] = useState(null);
+//   const [reviewData, setReviewData] = useState({});
+//   const [submittingId, setSubmittingId] = useState(null);
+
+//   const safeLocation = (provider) => {
+//     if (!provider?.location?.coordinates) return "N/A";
+//     const [lng, lat] = provider.location.coordinates;
+//     return `Lat ${lat.toFixed(3)}, Lng ${lng.toFixed(3)}`;
+//   };
+
+//   const safeName = (provider) =>
+//     provider?.userId?.name || provider?.name || "N/A";
+
+//   const fetchBookings = async () => {
+//     try {
+//       const res = await API.get("/bookings/user");
+//       setBookings(res.data.bookings || []);
+//     } catch {
+//       setError("Failed to load your bookings");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchBookings();
+//   }, []);
+
+//   const cancelBooking = async (id) => {
+//     if (!window.confirm("Cancel this booking?")) return;
+//     try {
+//       setCancellingId(id);
+//       await API.put(`/bookings/${id}/status`, { status: "cancelled" });
+//       fetchBookings();
+//     } finally {
+//       setCancellingId(null);
+//     }
+//   };
+
+//   const submitReview = async (booking) => {
+//     const { rating, comment } = reviewData[booking._id] || {};
+//     if (!rating) return alert("Rating required");
+
+//     try {
+//       setSubmittingId(booking._id);
+//       await API.post("/reviews", {
+//         bookingId: booking._id,
+//         providerId: booking.providerId._id,
+//         rating,
+//         comment,
+//       });
+//       fetchBookings();
+//     } finally {
+//       setSubmittingId(null);
+//     }
+//   };
+
+//   const statusBadge = (status) => {
+//     if (status === "completed") return "success";
+//     if (status === "cancelled") return "danger";
+//     return "primary";
+//   };
+
+//   return (
+//     <>
+//       <Navbar role="user" />
+
+//       <div className="container py-5">
+//         <h3 className="mb-4">📋 My Bookings</h3>
+
+//         {loading && <div className="alert alert-info">Loading...</div>}
+//         {error && <div className="alert alert-danger">{error}</div>}
+
+//         {!loading && bookings.length === 0 && (
+//           <div className="alert alert-warning">No bookings yet.</div>
+//         )}
+
+//         {bookings.map((booking) => {
+//           const provider = booking.provider || booking.providerId || {};
+
+//           return (
+//             <div key={booking._id} className="booking-card card mb-4 shadow-sm">
+//               <div className="card-body">
+//                 {/* HEADER */}
+//                 <div className="d-flex justify-content-between align-items-center mb-3">
+//                   <h5 className="mb-0">
+//                     {provider.category || "Service"}
+//                   </h5>
+//                   <span
+//                     className={`badge bg-${statusBadge(booking.status)}`}
+//                   >
+//                     {booking.status.toUpperCase()}
+//                   </span>
+//                 </div>
+
+//                 {/* DETAILS */}
+//                 <div className="row booking-details">
+//                   <div className="col-md-6">
+//                     <p><strong>Name:</strong> {safeName(provider)}</p>
+//                     <p><strong>Contact:</strong> {provider?.contact || "N/A"}</p>
+//                   </div>
+//                   <div className="col-md-6">
+//                     <p><strong>Location:</strong> {safeLocation(provider)}</p>
+//                     <p>
+//                       <strong>Date:</strong>{" "}
+//                       {new Date(booking.date).toLocaleString()}
+//                     </p>
+//                   </div>
+//                 </div>
+
+//                 {/* ACTIONS */}
+//                 {["pending", "confirmed"].includes(
+//                   booking.status?.toLowerCase()
+//                 ) && (
+//                   <button
+//                     className="btn btn-outline-danger btn-sm mt-2"
+//                     onClick={() => cancelBooking(booking._id)}
+//                     disabled={cancellingId === booking._id}
+//                   >
+//                     {cancellingId === booking._id
+//                       ? "Cancelling..."
+//                       : "Cancel Booking"}
+//                   </button>
+//                 )}
+
+//                 {/* REVIEW */}
+//                 {booking.status === "completed" && !booking.hasReview && (
+//                   <div className="review-box mt-4">
+//                     <h6>📝 Leave a Review</h6>
+
+//                     <input
+//                       type="number"
+//                       className="form-control mb-2"
+//                       min={1}
+//                       max={5}
+//                       placeholder="Rating (1–5)"
+//                       value={reviewData[booking._id]?.rating || ""}
+//                       onChange={(e) =>
+//                         setReviewData({
+//                           ...reviewData,
+//                           [booking._id]: {
+//                             ...reviewData[booking._id],
+//                             rating: e.target.value,
+//                           },
+//                         })
+//                       }
+//                     />
+
+//                     <textarea
+//                       className="form-control mb-2"
+//                       rows={2}
+//                       placeholder="Write your review..."
+//                       value={reviewData[booking._id]?.comment || ""}
+//                       onChange={(e) =>
+//                         setReviewData({
+//                           ...reviewData,
+//                           [booking._id]: {
+//                             ...reviewData[booking._id],
+//                             comment: e.target.value,
+//                           },
+//                         })
+//                       }
+//                     />
+
+//                     <button
+//                       className="btn btn-success btn-sm"
+//                       onClick={() => submitReview(booking)}
+//                       disabled={submittingId === booking._id}
+//                     >
+//                       {submittingId === booking._id
+//                         ? "Submitting..."
+//                         : "Submit Review"}
+//                     </button>
+//                   </div>
+//                 )}
+
+//                 {booking.status === "completed" && booking.hasReview && (
+//                   <p className="text-success mt-3">
+//                     ✅ Review already submitted
+//                   </p>
+//                 )}
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </>
+//   );
+// };
+
+// export default MyBookings;
+
+
+
+
+
+import React, { useEffect, useState } from "react";
+import API from "../utils/axios";
+import Navbar from "../components/Navbar";
+import "./MyBooking.css";
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [cancellingId, setCancellingId] = useState(null);
   const [reviewData, setReviewData] = useState({});
   const [submittingId, setSubmittingId] = useState(null);
 
-  // SAFE LOCATION FORMATTER
+  // SAFE HELPERS
+  const safeName = (provider) =>
+    provider?.userId?.name || provider?.name || "N/A";
+
   const safeLocation = (provider) => {
-    if (!provider) return "N/A";
-
-    const loc = provider.location;
-    if (!loc || !loc.coordinates) return "N/A";
-
-    const [lng, lat] = loc.coordinates;
-    return `Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+    if (!provider?.location?.coordinates) return "N/A";
+    const [lng, lat] = provider.location.coordinates;
+    return `Lat ${lat.toFixed(3)}, Lng ${lng.toFixed(3)}`;
   };
 
-  // SAFE NAME FORMATTER
-  const safeName = (provider) => {
-    if (!provider) return "N/A";
-    return (
-      provider?.userId?.name ||
-      provider?.name ||
-      "N/A"
-    );
-  };
-
+  // FETCH BOOKINGS
   const fetchBookings = async () => {
     try {
-      const res = await API.get('/bookings/user');
+      const res = await API.get("/bookings/user");
       setBookings(res.data.bookings || []);
-    } catch (err) {
-      console.error('Error fetching bookings:', err.message);
-      setError('Failed to load your bookings');
+    } catch {
+      setError("Failed to load your bookings");
     } finally {
       setLoading(false);
     }
@@ -47,52 +244,50 @@ const MyBookings = () => {
     fetchBookings();
   }, []);
 
+  // CANCEL
   const cancelBooking = async (id) => {
-    if (!window.confirm('Are you sure you want to cancel this booking?')) return;
-
+    if (!window.confirm("Cancel this booking?")) return;
     try {
       setCancellingId(id);
-      await API.put(`/bookings/${id}/status`, { status: 'cancelled' });
-      alert('Booking cancelled');
+      await API.put(`/bookings/${id}/status`, { status: "cancelled" });
       fetchBookings();
-    } catch (err) {
-      alert('Failed to cancel booking');
     } finally {
       setCancellingId(null);
     }
   };
 
+  // REVIEW
   const submitReview = async (booking) => {
     const { rating, comment } = reviewData[booking._id] || {};
-    if (!rating) return alert('Rating is required');
+    if (!rating) return alert("Rating required");
 
     try {
       setSubmittingId(booking._id);
-      await API.post('/reviews', {
+      await API.post("/reviews", {
         bookingId: booking._id,
         providerId: booking.providerId._id,
         rating,
-        comment
+        comment,
       });
-
-      alert('Review submitted!');
       fetchBookings();
-    } catch (err) {
-      alert('Failed to submit review');
     } finally {
       setSubmittingId(null);
     }
   };
 
-  const formatStatus = (status) =>
-    status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+  const statusBadge = (status) => {
+    if (status === "completed") return "success";
+    if (status === "cancelled") return "danger";
+    if (status === "confirmed") return "primary";
+    return "secondary";
+  };
 
   return (
     <>
       <Navbar role="user" />
 
       <div className="container py-5">
-        <h2 className="mb-4">📋 My Bookings</h2>
+        <h3 className="mb-4">📋 My Bookings</h3>
 
         {loading && <div className="alert alert-info">Loading...</div>}
         {error && <div className="alert alert-danger">{error}</div>}
@@ -105,50 +300,80 @@ const MyBookings = () => {
           const provider = booking.provider || booking.providerId || {};
 
           return (
-            <div key={booking._id} className="card mb-3">
+            <div key={booking._id} className="booking-card card mb-4 shadow-sm">
               <div className="card-body">
-
-                <h5 className="card-title">
-                  {provider?.category || "Service"} –{" "}
-                  <span className={`text-${
-                    booking.status === "cancelled"
-                      ? "danger"
-                      : booking.status === "completed"
-                      ? "success"
-                      : "primary"
-                  }`}>
-                    {formatStatus(booking.status)}
+                {/* HEADER */}
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                  <h5 className="mb-0">
+                    {provider.category || "Service"}
+                  </h5>
+                  <span className={`badge bg-${statusBadge(booking.status)}`}>
+                    {booking.status.toUpperCase()}
                   </span>
-                </h5>
+                </div>
 
-                <p className="card-text">
-                  <strong>Name:</strong> {safeName(provider)} <br />
-                  <strong>Contact:</strong> {provider?.contact || "N/A"} <br />
-                  <strong>Location:</strong> {safeLocation(provider)} <br />
-                  <strong>Date:</strong> {new Date(booking.date).toLocaleString()}
-                </p>
+                {/* DETAILS */}
+                <div className="row booking-details">
+                  <div className="col-md-6">
+                    <p>
+                      <strong>Name:</strong> {safeName(provider)}
+                    </p>
 
-                {/* CANCEL */}
-                {["pending", "confirmed"].includes(booking.status.toLowerCase()) && (
+                    {/* 📞 CONTACT — ONLY WHEN CONFIRMED */}
+                    {booking.status === "confirmed" && (
+                      <p>
+                        <strong>Contact:</strong>{" "}
+                        <span className="text-success fw-semibold">
+                          {provider?.contact || "N/A"}
+                        </span>
+                      </p>
+                    )}
+
+                    {/* Hint for pending */}
+                    {booking.status === "pending" && (
+                      <p className="text-muted small">
+                        📞 Contact details will be shared after confirmation
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="col-md-6">
+                    <p>
+                      <strong>Location:</strong> {safeLocation(provider)}
+                    </p>
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {new Date(booking.date).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* ACTIONS */}
+                {["pending", "confirmed"].includes(
+                  booking.status?.toLowerCase()
+                ) && (
                   <button
+                    className="btn btn-outline-danger btn-sm mt-2"
                     onClick={() => cancelBooking(booking._id)}
-                    className="btn btn-danger"
                     disabled={cancellingId === booking._id}
                   >
-                    {cancellingId === booking._id ? "Cancelling..." : "Cancel Booking"}
+                    {cancellingId === booking._id
+                      ? "Cancelling..."
+                      : "Cancel Booking"}
                   </button>
                 )}
 
-                {/* REVIEW FORM */}
+                {/* REVIEW */}
                 {booking.status === "completed" && !booking.hasReview && (
-                  <div className="mt-3">
+                  <div className="review-box mt-4">
                     <h6>📝 Leave a Review</h6>
 
                     <input
                       type="number"
-                      className="form-control"
+                      className="form-control mb-2"
                       min={1}
                       max={5}
+                      placeholder="Rating (1–5)"
                       value={reviewData[booking._id]?.rating || ""}
                       onChange={(e) =>
                         setReviewData({
@@ -162,8 +387,9 @@ const MyBookings = () => {
                     />
 
                     <textarea
-                      className="form-control mt-2"
+                      className="form-control mb-2"
                       rows={2}
+                      placeholder="Write your review..."
                       value={reviewData[booking._id]?.comment || ""}
                       onChange={(e) =>
                         setReviewData({
@@ -174,21 +400,23 @@ const MyBookings = () => {
                           },
                         })
                       }
-                    ></textarea>
+                    />
 
                     <button
-                      className="btn btn-success mt-2"
+                      className="btn btn-success btn-sm"
                       onClick={() => submitReview(booking)}
                       disabled={submittingId === booking._id}
                     >
-                      {submittingId === booking._id ? "Submitting..." : "Submit Review"}
+                      {submittingId === booking._id
+                        ? "Submitting..."
+                        : "Submit Review"}
                     </button>
                   </div>
                 )}
 
                 {booking.status === "completed" && booking.hasReview && (
                   <p className="text-success mt-3">
-                    ✅ You have already reviewed this booking.
+                    ✅ Review already submitted
                   </p>
                 )}
               </div>
@@ -201,3 +429,5 @@ const MyBookings = () => {
 };
 
 export default MyBookings;
+
+

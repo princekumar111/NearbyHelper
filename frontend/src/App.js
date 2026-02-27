@@ -19,10 +19,10 @@ import ProviderDashboard from './pages/ProviderDashboard';
 import EditProviderProfile from './components/EditProviderProfile';
 import ProviderBookingHistory from './pages/ProviderBookingHistory';
 import ProviderUpsert from './pages/ProviderUpsert';
+import MyProviderProfile from './pages/MyProviderProfile';
 
 // 👑 Admin pages
 import AdminDashboard from './pages/AdminDashboard';
-// import AdminUsers from './pages/AdminUsers';
 import AdminUsers from './components/AdminUsers';
 import AdminProviders from './components/AdminProviders';
 import AdminBookings from './components/AdminBookings';
@@ -31,181 +31,135 @@ import ManageUsers from './pages/admin/ManageUser';
 // 🔒 Route guards
 import PrivateRoute from './components/PrivateRoute';
 import PrivateRouteAdmin from './components/PrivateRouteAdmin';
-import MyProviderProfile from './pages/MyProviderProfile';
 
 function App() {
-    return ( <
-        Router >
-        <
-        Routes > { /* Public Routes */ } <
-        Route path = "/"
-        element = { < Navigate to = "/login" / > }
-        /> <
-        Route path = "/login"
-        element = { < LoginPage / > }
-        /> <
-        Route path = "/register"
-        element = { < RegisterPage / > }
-        /> <
-        Route path = "/admin/login"
-        element = { < AdminLogin / > }
-        /> <
-        Route path = "/admin/register"
-        element = { < AdminRegister / > }
-        /> <
-        Route path = "/unauthorized"
-        element = { < Unauthorized / > }
+  return (
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/register" element={<AdminRegister />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+
+        {/* User Routes */}
+        <Route
+          path="/user/dashboard"
+          element={
+            <PrivateRoute allowedRoles={['user']}>
+              <UserDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/user/bookings"
+          element={
+            <PrivateRoute allowedRoles={['user']}>
+              <MyBookings />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/book/:providerId"
+          element={
+            <PrivateRoute allowedRoles={['user']}>
+              <BookingPage />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/providers/:serviceName" element={<ProvidersList />} />
+
+        {/* Provider Routes */}
+        <Route
+          path="/provider/dashboard"
+          element={
+            <PrivateRoute allowedRoles={['provider']}>
+              <ProviderDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/provider/dashboard/booking-history"
+          element={
+            <PrivateRoute allowedRoles={['provider']}>
+              <ProviderBookingHistory />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/provider/profile/edit"
+          element={
+            <PrivateRoute allowedRoles={['provider']}>
+              <EditProviderProfile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/provider/detail"
+          element={
+            <PrivateRoute allowedRoles={['provider']}>
+              <ProviderUpsert />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/provider/profile"
+          element={
+            <PrivateRoute allowedRoles={['provider']}>
+              <MyProviderProfile />
+            </PrivateRoute>
+          }
         />
 
-        { /* User Routes */ } <
-        Route path = "/user/dashboard"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['user']
-            } >
-            <
-            UserDashboard / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/user/bookings"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['user']
-            } >
-            <
-            MyBookings / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/book/:providerId"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['user']
-            } >
-            <
-            BookingPage / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/providers/:serviceName"
-        element = { < ProvidersList / > }
+        {/* Admin Routes */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            <PrivateRouteAdmin>
+              <AdminDashboard />
+            </PrivateRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <PrivateRouteAdmin>
+              <AdminUsers />
+            </PrivateRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/providers"
+          element={
+            <PrivateRouteAdmin>
+              <AdminProviders />
+            </PrivateRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/bookings"
+          element={
+            <PrivateRouteAdmin>
+              <AdminBookings />
+            </PrivateRouteAdmin>
+          }
+        />
+        <Route
+          path="/admin/manage-users"
+          element={
+            <PrivateRouteAdmin>
+              <ManageUsers />
+            </PrivateRouteAdmin>
+          }
         />
 
-        { /* Provider Routes */ } <
-        Route path = "/provider/dashboard"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['provider']
-            } >
-            <
-            ProviderDashboard / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/provider/dashboard/booking-history"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['provider']
-            } >
-            <
-            ProviderBookingHistory / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/provider/profile/edit"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['provider']
-            } >
-            <
-            EditProviderProfile / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/provider/detail"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['provider']
-            } >
-            <
-            ProviderUpsert / >
-            <
-            /PrivateRoute>
-        }
-        /> <
-        Route path = "/provider/profile"
-        element = { <
-            PrivateRoute allowedRoles = {
-                ['provider']
-            } >
-            <
-            MyProviderProfile / >
-            <
-            /PrivateRoute>
-        }
-        />
+        {/* Catch-all 404 */}
+        <Route path="*" element={<h1>404 - Page Not Found</h1>} />
+      </Routes>
+    </Router>
+  );
+}
 
-        { /* Admin Routes */ } <
-        Route path = "/admin/dashboard"
-        element = { <
-            PrivateRouteAdmin >
-            <
-            AdminDashboard / >
-            <
-            /PrivateRouteAdmin>
-        }
-        /> <
-        Route path = "/admin/users"
-        element = { <
-            PrivateRouteAdmin >
-            <
-            AdminUsers / >
-            <
-            /PrivateRouteAdmin>
-        }
-        /> <
-        Route path = "/admin/providers"
-        element = { <
-            PrivateRouteAdmin >
-            <
-            AdminProviders / >
-            <
-            /PrivateRouteAdmin>
-        }
-        /> <
-        Route path = "/admin/bookings"
-        element = { <
-            PrivateRouteAdmin >
-            <
-            AdminBookings / >
-            <
-            /PrivateRouteAdmin>
-        }
-        /> <
-        Route path = "/admin/manage-users"
-        element = { <
-            PrivateRouteAdmin >
-            <
-            ManageUsers / >
-            <
-            /PrivateRouteAdmin>
-        }
-        />
-
-        { /* Catch-all 404 */ } <
-        Route path = "*"
-        element = { < h1 > 404 - Page Not Found < /h1>} / >
-            <
-            /Routes> < /
-            Router >
-        );
-    }
-
-    export default App;
+export default App;

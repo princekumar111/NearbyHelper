@@ -1,0 +1,63 @@
+.provider-card {
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.provider-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 10px;
+}
+
+.provider-name {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* ⭐ Rating */
+.rating {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.star {
+  color: #ccc;
+  font-size: 18px;
+}
+
+.star.filled {
+  color: #f5a623;
+}
+
+.rating-text {
+  margin-left: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Info */
+.provider-info {
+  font-size: 0.95rem;
+}
+
+.provider-info p {
+  margin-bottom: 6px;
+}
+
+.provider-info span {
+  font-weight: 600;
+}
+
+.available {
+  color: green;
+  font-weight: 600;
+}
+
+.not-available {
+  color: red;
+  font-weight: 600;
+}
