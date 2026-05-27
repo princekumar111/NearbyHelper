@@ -1,4 +1,4 @@
-NearbyHelper
+##NearbyHelper->
 NearbyHelper is a service-based web application that connects users with nearby skilled workers such as plumbers, electricians, carpenters, painters, and other local service providers. The platform helps users quickly find trusted workers in their area, while workers can create profiles and get more job opportunities.
 
 ##Features
