@@ -1,67 +1,94 @@
-##NearbyHelper->
-NearbyHelper is a service-based web application that connects users with nearby skilled workers such as plumbers, electricians, carpenters, painters, and other local service providers. The platform helps users quickly find trusted workers in their area, while workers can create profiles and get more job opportunities.
+# NearbyHelper
 
-##Features
--User and Worker Registration/Login
--Worker Profile Management
--Search Nearby Workers
--Category-wise Worker Listing
--Responsive User Interface
--Profile Photo Upload
--Contact Details for Hiring
--Easy Navigation
+NearbyHelper is a service-based web application that connects users with nearby skilled workers such as plumbers, electricians, carpenters, painters, and other local service providers.
 
-##User Roles
-#User
--Register/Login
--View available workers
--Search workers by skill
--Contact workers
+The platform helps users quickly find trusted workers in their area, while workers can create profiles and get more job opportunities.
 
-##Worker
--Register/Login
--Add personal details
--Upload profile photo
--Select skills/services
--Display availability
+## Features
 
-##Tech Stack
-#Frontend
--React.js
--HTML
--CSS
--JavaScript
-#Backend
--Node.js
--Express.js
-#Database
--MongoDB
+- User and Worker Registration/Login
+- Worker Profile Management
+- Search Nearby Workers
+- Category-wise Worker Listing
+- Responsive User Interface
+- Profile Photo Upload
+- Contact Details for Hiring
+- Easy Navigation
 
-##Project Objective
+## User Roles
+
+### User
+
+- Register/Login
+- View available workers
+- Search workers by skill
+- Contact workers
+
+### Worker
+
+- Register/Login
+- Add personal details
+- Upload profile photo
+- Select skills/services
+- Display availability
+
+## Tech Stack
+
+### Frontend
+- React.js
+- HTML
+- CSS
+- JavaScript
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB
+
+## Installation
+
+1. Clone the repository
+
+git clone <your-github-repository-link>
+
+2. Move into project folder
+
+cd NearbyHelper
+
+3. Install frontend dependencies
+
+cd frontend
+npm install
+
+4. Start frontend
+
+npm start
+
+5. Install backend dependencies
+
+cd backend
+npm install
+
+6. Start backend server
+
+npm start
+
+
+## Project Objective
 
 The main objective of NearbyHelper is to simplify the process of finding local service providers and help skilled workers increase their reach and income opportunities.
 
-##Future Improvements
--Real-time location tracking
--Online payment integration
--Ratings and reviews
--Chat system
--Booking system
--Admin dashboard
+## Future Improvements
 
-##Installation
-# Clone the repository
-git clone <repository-link>
+- Real-time location tracking
+- Online Payment Integration
+- Ratings and Reviews
+- Chat System
+- Booking System
+- Admin Dashboard
 
-# Move into project folder
-cd NearbyHelper
-
-# Install frontend dependencies
-npm install
-
-# Start frontend
-npm start
-
-Author
+## Author
 
 Prince Kumar
