@@ -27,27 +27,41 @@ const BookingPage = ({ providerId, onClose }) => {
     return `${h.toString().padStart(2, "0")}:${minute}`;
   };
 
-  const handleBooking = async (e) => {
-    e.preventDefault();
+const handleBooking = async (e) => {
+  e.preventDefault();
 
-    if (!appointmentDate) {
-      setAlert("⚠️ Select date & time");
-      return;
-    }
+  if (!appointmentDate) {
+    setAlert("⚠️ Select date & time");
+    return;
+  }
 
-    try {
-      await API.post("/bookings", {
-        providerId,
-        date: new Date(`${appointmentDate}T${get24HourTime()}`).toISOString(),
-        description,
-      });
+  // selected date + time
+  const selectedDateTime = new Date(
+    `${appointmentDate}T${get24HourTime()}`
+  );
 
-      setAlert("✅ Booking successful!");
-      setTimeout(onClose, 1200);
-    } catch {
-      setAlert("❌ Booking failed");
-    }
-  };
+  const currentDateTime = new Date();
+
+  // prevent past booking
+  if (selectedDateTime <= currentDateTime) {
+    setAlert("⚠️ You cannot book appointment in past time");
+    return;
+  }
+
+  try {
+    await API.post("/bookings", {
+      providerId,
+      date: selectedDateTime.toISOString(),
+      description,
+    });
+
+    setAlert("✅ Booking successful!");
+    setTimeout(onClose, 1200);
+
+  } catch {
+    setAlert("❌ Booking failed");
+  }
+};
 
   return (
     <div className="booking-card">
@@ -81,10 +95,16 @@ const BookingPage = ({ providerId, onClose }) => {
             })}
           </select>
 
-          <select className="form-select" value={minute} onChange={(e) => setMinute(e.target.value)}>
-            <option>00</option>
-            <option>30</option>
-          </select>
+         <select 
+          className="form-select" 
+            value={minute} 
+                onChange={(e) => setMinute(e.target.value)}
+>
+                   {[...Array(60)].map((_, i) => {
+                     const m = i.toString().padStart(2, "0");
+                      return <option key={m}>{m}</option>;
+                    })}
+        </select>
 
           <select className="form-select" value={ampm} onChange={(e) => setAmPm(e.target.value)}>
             <option>AM</option>

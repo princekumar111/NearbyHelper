@@ -4,10 +4,10 @@
     "description": "NearbyHelper backend - local service finder",
     "main": "server.js",
     "scripts": {
-        "start": "node server.js",
-        "dev": "nodemon server.js"
-    },
-    "author": "Rahul",
+  "start": "node app.js",
+  "dev": "nodemon app.js"
+},
+    "author": "Prince",
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.1.0",

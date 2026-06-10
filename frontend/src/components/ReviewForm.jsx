@@ -7,39 +7,64 @@ const ReviewForm = ({ booking, onReviewSubmit }) => {
   const [comment, setComment] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = async () => {
-    try {
-      setSubmitting(true);
-      await API.post('/reviews', {
-        bookingId: booking._id,
-        providerId: booking.providerId._id || booking.providerId,
-        rating,
-        comment,
-      });
-      alert('✅ Review submitted!');
-      onReviewSubmit(); // Refresh booking list
-    } catch (err) {
-      alert('❌ Failed to submit review');
-      console.error(err);
-    } finally {
-      setSubmitting(false);
+const handleSubmit = async () => {
+  try {
+
+    if (!booking) {
+      alert("❌ Booking data missing");
+      return;
     }
-  };
+
+    const provider =
+      booking.providerId?._id || booking.providerId;
+
+    if (!provider) {
+      alert("❌ Provider not found");
+      return;
+    }
+
+    setSubmitting(true);
+
+    await API.post('/reviews', {
+      bookingId: booking._id,
+      providerId: provider,
+      rating,
+      comment,
+    });
+
+    alert('✅ Review submitted!');
+
+    if (onReviewSubmit) {
+      onReviewSubmit();
+    }
+
+  } catch (err) {
+    alert('❌ Failed to submit review');
+    console.error(err);
+
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="mt-3">
       <h6>Leave a Review</h6>
-      <select
-        value={rating}
-        onChange={(e) => setRating(parseInt(e.target.value))}
-        className="form-select mb-2"
-      >
-        {[5, 4, 3, 2, 1].map((star) => (
-          <option key={star} value={star}>
-            {star} Star{star > 1 && 's'}
-          </option>
-        ))}
-      </select>
+      <div className="mb-2">
+  {[1, 2, 3, 4, 5].map((star) => (
+    <span
+      key={star}
+      onClick={() => setRating(star)}
+      style={{
+        cursor: "pointer",
+        fontSize: "30px",
+        color: star <= rating ? "#ffc107" : "#ccc"
+      }}
+    >
+      ★
+    </span>
+  ))}
+</div>
       <textarea
         className="form-control mb-2"
         placeholder="Write a comment..."

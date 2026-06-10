@@ -35,16 +35,26 @@ const Navbar = ({ role }) => {
   );
 
   const providerLinks = (
-    <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/provider/dashboard">Dashboard</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/provider/services">My Services</Link>
-      </li>
-    </>
-  );
+  <>
+    <li className="nav-item">
+      <Link className="nav-link" to="/provider/dashboard">
+        Dashboard
+      </Link>
+    </li>
 
+    {/* <li className="nav-item">
+      <Link className="nav-link" to="/provider/services">
+        My Services
+      </Link>
+    </li> */}
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/provider/history">
+        Work History
+      </Link>
+    </li>
+  </>
+);
   /* ---------------- LOGOUT ---------------- */
 
   const handleLogout = () => {
@@ -109,13 +119,23 @@ const Navbar = ({ role }) => {
       <div className="container">
 
         {/* Logo */}
-        <Link className="navbar-brand d-flex align-items-center nh-brand" to="/">
-          <img
-            src="/service_images/logo.webp"
-            alt="NearbyHelper Logo"
-            className="logo"
-          />
-        </Link>
+    
+      <Link
+        className="navbar-brand d-flex align-items-center nh-brand"
+         to={
+         role === "admin"
+        ? "/admin/dashboard"
+         : role === "provider"
+         ? "/provider/dashboard"
+        : "/user/dashboard"
+        }
+      >
+  <img
+    src="/service_images/logo.webp"
+    alt="NearbyHelper Logo"
+    className="logo"
+  />
+</Link>
 
         <div className="collapse navbar-collapse">
 
