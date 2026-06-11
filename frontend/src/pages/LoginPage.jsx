@@ -102,7 +102,13 @@ const LoginPage = () => {
           <div className="mb-4">
             <div className="d-flex justify-content-between">
               <label className="form-label small fw-bold text-secondary ms-1">Password</label>
-              <a href="#" className="text-decoration-none small fw-bold" style={{ color: '#4f46e5' }}>Forgot?</a>
+              <button 
+                 type="button"
+                 className="text-decoration-none small fw-bold border-0 bg-transparent"
+                  style={{ color: '#4f46e5' }}
+                        >
+                  Forgot?
+              </button>
             </div>
             <input
               type="password"
