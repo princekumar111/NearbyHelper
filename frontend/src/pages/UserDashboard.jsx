@@ -43,7 +43,7 @@ const UserDashboard = () => {
 
   return (
     <>
-      <Navbar role="user" />
+      <Navbar />
       <div className="dashboard-container py-5">
         <div className="welcome-box">
           <h2>Welcome, {user?.name || 'User'}</h2>

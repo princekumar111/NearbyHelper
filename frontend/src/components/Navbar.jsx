@@ -122,13 +122,13 @@ const Navbar = ({ role }) => {
     
       <Link
         className="navbar-brand d-flex align-items-center nh-brand"
-         to={
-         role === "admin"
-        ? "/admin/dashboard"
-         : role === "provider"
-         ? "/provider/dashboard"
-        : "/user/dashboard"
-        }
+        to={
+             role === "admin"
+             ? "/admin/dashboard"
+             : role === "provider"
+             ? "/provider/dashboard"
+             : "/"
+             }
       >
   <img
     src="/service_images/logo.webp"
@@ -173,19 +173,20 @@ const Navbar = ({ role }) => {
           </div>
 
           {/* Role + Logout */}
-          <div className="d-flex align-items-center">
-            {role && (
-              <span className="text-dark me-3 text-capitalize">
-                Role: <strong>{role}</strong>
-              </span>
-            )}
-            <button
-              className="btn btn-outline-dark"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
-          </div>
+          {role && (
+           <div className="d-flex align-items-center">
+            <span className="text-dark me-3 text-capitalize">
+           Role: <strong>{role}</strong>
+         </span>
+
+          <button
+           className="btn btn-outline-dark"
+          onClick={handleLogout}
+         >
+          Logout
+        </button>
+      </div>
+    )}
 
         </div>
       </div>
