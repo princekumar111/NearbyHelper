@@ -38,9 +38,8 @@ function App() {
         <
         Routes >
 
-        { /* Public Routes */ } <
-        Route path = "/"
-        element = { < Navigate to = "/login" / > }
+        { /* Public Routes */ } < Route path = "/"
+        element = { < UserDashboard / > }
         /> <
         Route path = "/login"
         element = { < LoginPage / > }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { isLoggedIn, logout, getUserFromToken } from '../utils/auth';
+import { getUserFromToken } from '../utils/auth';
 import Navbar from '../components/Navbar';
 import API from '../utils/axios';
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn, FaYoutube } from "react-icons/fa";
@@ -23,10 +23,7 @@ const UserDashboard = () => {
   const user = getUserFromToken();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!isLoggedIn()) logout();
-  }, []);
-
+ 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -76,12 +73,19 @@ const UserDashboard = () => {
                     <div className="card-body d-flex flex-column justify-content-between">
                       <div>
                         <img
-                          src={`/service_images/${catName}_image.jpg`}
-                          alt={cat?.name || 'Service'}
-                          className="img-fluid rounded"
-                          style={{ height: '200px', objectFit: 'cover', width: '100%' }}
-                          onError={(e) => { e.currentTarget.src = "/service_images/placeholder.jpg"; }}
-                        />
+                             src={`/service_images/${catName}_image.jpg`}
+                             alt={cat?.name || 'Service'}
+                             className="img-fluid rounded"
+                             loading="lazy"
+                             style={{
+                             height: '200px',
+                             objectFit: 'cover',
+                              width: '100%'
+                              }}
+                            onError={(e) => {
+                              e.currentTarget.src = "/service_images/placeholder.jpg";
+                               }}
+                            />
                       </div>
                       <button
                         className="btn btn-primary mt-4 w-100"

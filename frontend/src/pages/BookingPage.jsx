@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import API from "../utils/axios";
 import "./BookingPage.css";
 
-const BookingPage = ({ providerId, onClose }) => {
+const BookingPage = () => {
+  const { providerId } = useParams();
+  const navigate = useNavigate();
   const [provider, setProvider] = useState(null);
   const [appointmentDate, setAppointmentDate] = useState("");
   const [description, setDescription] = useState("");
@@ -12,14 +15,26 @@ const BookingPage = ({ providerId, onClose }) => {
   const [minute, setMinute] = useState("00");
   const [ampm, setAmPm] = useState("AM");
 
-  useEffect(() => {
-    const fetchProvider = async () => {
-      const res = await API.get(`/providers/${providerId}`);
-      setProvider(res.data);
-    };
-    fetchProvider();
-  }, [providerId]);
+ useEffect(() => {
+  const fetchProvider = async () => {
+    try {
 
+      const res = await API.get(
+        `/providers/${providerId}`
+      );
+
+      setProvider(res.data);
+
+    } catch(error){
+      console.log(error);
+    }
+  };
+
+  if(providerId){
+    fetchProvider();
+  }
+
+}, [providerId]);
   const get24HourTime = () => {
     let h = parseInt(hour);
     if (ampm === "PM" && h < 12) h += 12;
@@ -56,7 +71,10 @@ const handleBooking = async (e) => {
     });
 
     setAlert("✅ Booking successful!");
-    setTimeout(onClose, 1200);
+
+     setTimeout(() => {
+     navigate("/user/bookings");
+     }, 1200);
 
   } catch {
     setAlert("❌ Booking failed");
@@ -65,8 +83,11 @@ const handleBooking = async (e) => {
 
   return (
     <div className="booking-card">
-      <button className="close-btn" onClick={onClose}>
-        ✕
+      <button 
+             className="close-btn" 
+             onClick={() => navigate(-1)}
+            >
+            ✕
       </button>
 
       <h3 className="text-center">Book Appointment</h3>
