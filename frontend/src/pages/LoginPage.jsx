@@ -41,7 +41,21 @@ const LoginPage = () => {
     }
   };
 
-  return (
+return (
+  <>
+    {/* Back Button */}
+    <button
+      type="button"
+      onClick={() => navigate("/")}
+      className="btn btn-light position-fixed top-0 start-0 m-4 shadow-sm fw-bold"
+      style={{
+        borderRadius: "12px",
+        zIndex: 1000
+      }}
+    >
+      ← Back to Home
+    </button>
+
     <div 
       className="d-flex align-items-center justify-content-center vh-100" 
       style={{ 
@@ -140,6 +154,7 @@ const LoginPage = () => {
           >
             Login
           </button>
+          
         </form>
 
         <div className="text-center mt-4 pt-3 border-top" style={{ borderColor: 'rgba(0,0,0,0.05) !important' }}>
@@ -155,7 +170,8 @@ const LoginPage = () => {
           </p>
         </div>
       </div>
-    </div>
+       </div>
+  </>
   );
 };
 

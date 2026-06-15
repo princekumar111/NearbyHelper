@@ -57,18 +57,16 @@ const Navbar = ({ role }) => {
 );
   /* ---------------- LOGOUT ---------------- */
 
-  const handleLogout = () => {
-    if (role === 'admin') {
-      localStorage.removeItem('admin');
-      navigate('/admin/login');
-    } else if (role === 'provider') {
-      localStorage.removeItem('provider');
-      navigate('/login');
-    } else {
-      localStorage.removeItem('user');
-      navigate('/login');
-    }
-  };
+ const handleLogout = () => {
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("admin");
+  localStorage.removeItem("provider");
+
+  navigate("/");
+
+};
 
   /* ---------------- AUTO SUGGESTION ---------------- */
 
