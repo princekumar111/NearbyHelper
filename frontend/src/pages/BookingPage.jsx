@@ -76,9 +76,28 @@ const handleBooking = async (e) => {
      navigate("/user/bookings");
      }, 1200);
 
-  } catch {
-    setAlert("❌ Booking failed");
+  } catch (error) {
+
+  const message = error.response?.data?.message;
+
+  if (message?.includes("already")) {
+
+    setAlert(
+      "😊 You already have an active booking for this service. Please check your bookings."
+    );
+
+    setTimeout(() => {
+      navigate("/user/bookings");
+    }, 2000);
+
+  } else {
+
+    setAlert(
+      "⚠️ Unable to complete booking right now. Please try again later."
+    );
+
   }
+}
 };
 
   return (
