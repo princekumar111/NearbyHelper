@@ -78,12 +78,17 @@ const handleBooking = async (e) => {
 
   } catch (error) {
 
-  const message = error.response?.data?.message;
+  console.log("BOOKING ERROR:", error.response?.data);
 
-  if (message?.includes("already")) {
+  const message =
+    error.response?.data?.message ||
+    error.response?.data?.msg ||
+    "";
+
+  if (message.toLowerCase().includes("already")) {
 
     setAlert(
-      "😊 You already have an active booking for this service. Please check your bookings."
+      "😊 You already booked this service. Please check your bookings."
     );
 
     setTimeout(() => {
@@ -93,7 +98,7 @@ const handleBooking = async (e) => {
   } else {
 
     setAlert(
-      "⚠️ Unable to complete booking right now. Please try again later."
+      message || "⚠️ Unable to complete booking right now."
     );
 
   }

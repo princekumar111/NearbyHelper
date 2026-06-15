@@ -28,15 +28,21 @@ const MyBookings = () => {
 
   // FETCH BOOKINGS
   const fetchBookings = async () => {
-    try {
-      const res = await API.get("/bookings/user");
-      setBookings(res.data.bookings || []);
-    } catch {
-      setError("Failed to load your bookings");
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    const res = await API.get("/bookings/user");
+
+    const sortedBookings = (res.data.bookings || []).sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
+    setBookings(sortedBookings);
+
+  } catch {
+    setError("Failed to load your bookings");
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchBookings();
@@ -165,9 +171,14 @@ const submitReview = async (booking) => {
                       <strong>Location:</strong> {safeLocation(provider)}
                     </p>
                     <p>
-                      <strong>Date:</strong>{" "}
-                      {new Date(booking.date).toLocaleString()}
-                    </p>
+                      <strong>Booked On:</strong>{" "}
+                      {new Date(booking.createdAt).toLocaleString()}
+                     </p>
+
+                         <p>
+                          <strong>Service Time:</strong>{" "}
+                          {new Date(booking.date).toLocaleString()}
+                        </p>
                   </div>
                 </div>
 
