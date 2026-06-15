@@ -36,8 +36,16 @@ API.interceptors.response.use(
             error.response.data.msg === "jwt expired"
         ) {
             localStorage.removeItem("token");
-            window.location.href = "/login";
 
+            const path = window.location.pathname;
+
+            // public pages par login redirect nahi
+            if (
+                path !== "/" &&
+                !path.startsWith("/providers")
+            ) {
+                window.location.href = "/login";
+            }
         }
 
         return Promise.reject(error);

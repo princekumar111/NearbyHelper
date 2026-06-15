@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserFromToken } from '../utils/auth';
+//import { getUserFromToken } from '../utils/auth';
 import Navbar from '../components/Navbar';
 import API from '../utils/axios';
 import { FaFacebookF, FaInstagram, FaTwitter, FaLinkedinIn, FaYoutube } from "react-icons/fa";
@@ -20,7 +20,7 @@ const sliderItems = [
 const UserDashboard = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState('');
-  const user = getUserFromToken();
+  //const user = getUserFromToken();
   const navigate = useNavigate();
 
  
@@ -46,7 +46,7 @@ const UserDashboard = () => {
       <Navbar />
       <div className="dashboard-container py-5">
         <div className="welcome-box">
-          <h2>Welcome, {user?.name || 'User'}</h2>
+          <h2>Welcome to NearbyHelper</h2>
           <h2>Find and book trusted home services instantly.</h2>
         </div>
 
