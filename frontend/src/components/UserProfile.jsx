@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserProfile.css";
-
+import {
+  CalendarCheck,
+  Star,
+  Bell,
+  Globe,
+  LogOut
+} from "lucide-react";
 function Profile() {
     const navigate = useNavigate();
 
@@ -158,21 +164,24 @@ const handleSave = () => {
         </h3>
 
          <p
-          className="profile-option"
-            onClick={()=>navigate("/user/bookings")}
-             >
-         📅 My Bookings
-          </p>
+ className="profile-option"
+ onClick={()=>navigate("/user/bookings")}
+>
+ <CalendarCheck size={20}/> My Bookings
+</p>
 
-        
 
-          <p
-            className="profile-option"
-            onClick={()=>navigate("/user/reviews")}
-         >
-           ⭐ My Reviews
-        </p>
+<p className="profile-option">
+ <Star size={20}/> Saved Helpers
+</p>
 
+
+<p
+ className="profile-option"
+ onClick={()=>navigate("/user/reviews")}
+>
+ <Star size={20}/> My Reviews
+</p>
 
       </div>
 

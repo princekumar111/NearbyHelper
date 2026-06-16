@@ -1,0 +1,35 @@
+.review-stars {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.review-stars svg {
+    color: #f5a623;
+}
+
+.review-stars span {
+    margin-left: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+}
+
+.review-card {
+    border-radius: 14px;
+    border: none;
+    padding: 18px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: 0.2s;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+}
+
+.review-comment {
+    color: #444;
+    font-size: 15px;
+}

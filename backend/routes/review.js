@@ -6,6 +6,8 @@ const checkAuth = require("../middleware/authMiddleware");
 const Review = require("../models/Review");
 const Booking = require("../models/Booking");
 
+// register ServiceProvider model for populate
+require("../models/ServiceProvider");
 
 
 // ===============================
@@ -24,10 +26,8 @@ router.post("/", checkAuth, async(req, res) => {
         } = req.body;
 
 
-
         const booking =
             await Booking.findById(bookingId);
-
 
 
         if (!booking) {
@@ -37,7 +37,6 @@ router.post("/", checkAuth, async(req, res) => {
             });
 
         }
-
 
 
         if (booking.status !== "completed") {
@@ -63,12 +62,10 @@ router.post("/", checkAuth, async(req, res) => {
 
 
 
-
         const existing =
             await Review.findOne({
                 booking: bookingId
             });
-
 
 
         if (existing) {
@@ -78,7 +75,6 @@ router.post("/", checkAuth, async(req, res) => {
             });
 
         }
-
 
 
 
@@ -98,9 +94,7 @@ router.post("/", checkAuth, async(req, res) => {
             });
 
 
-
         await review.save();
-
 
 
         res.status(201).json({
@@ -112,27 +106,22 @@ router.post("/", checkAuth, async(req, res) => {
         });
 
 
-
     } catch (err) {
-
 
         console.log(err);
 
-
         res.status(500).json({
-            msg: "Server error",
-            error: err.message
-        });
 
+            msg: "Server error",
+
+            error: err.message
+
+        });
 
     }
 
 
-
 });
-
-
-
 
 
 
@@ -143,6 +132,7 @@ router.post("/", checkAuth, async(req, res) => {
 // MY REVIEWS
 // ===============================
 
+
 router.get(
     "/my-reviews",
     checkAuth,
@@ -152,13 +142,6 @@ router.get(
         try {
 
 
-            console.log(
-                "LOGIN USER:",
-                req.user.id
-            );
-
-
-
             const reviews =
                 await Review.find({
 
@@ -166,7 +149,21 @@ router.get(
 
                 })
 
-            .populate("booking")
+
+            .populate({
+
+                path: "provider",
+
+                populate: {
+
+                    path: "userId",
+
+                    select: "name email"
+
+                }
+
+            })
+
 
             .sort({
 
@@ -176,19 +173,10 @@ router.get(
 
 
 
-            console.log(
-                "REVIEWS FOUND:",
-                reviews
-            );
-
-
-
             res.json(reviews);
 
 
-
         } catch (err) {
-
 
             console.log(err);
 
@@ -219,6 +207,7 @@ router.get(
 // PROVIDER REVIEWS
 // ===============================
 
+
 router.get(
     "/provider/:providerId",
     async(req, res) => {
@@ -234,10 +223,12 @@ router.get(
 
                 })
 
+
             .populate(
                 "user",
                 "name"
             )
+
 
             .sort({
 
@@ -248,7 +239,6 @@ router.get(
 
 
             res.json(reviews);
-
 
 
         } catch (err) {
@@ -264,7 +254,6 @@ router.get(
 
 
         }
-
 
 
     });

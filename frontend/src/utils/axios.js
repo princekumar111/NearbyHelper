@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: "https://nearbyhelper-backend.onrender.com/api",
+    baseURL: "http://localhost:4000/api",
 });
 
 // Automatically attach token

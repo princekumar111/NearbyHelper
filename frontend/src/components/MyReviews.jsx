@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import API from "../utils/axios";
+import { Star } from "lucide-react";
+import "./MyReviews.css";
 
 
 const MyReviews = () => {
@@ -25,11 +27,17 @@ const res = await API.get(
 );
 
 
+console.log(
+"MY REVIEW DATA:",
+res.data
+);
+
+
 setReviews(res.data);
 
 
-
 }
+
 
 catch(err){
 
@@ -41,6 +49,7 @@ err
 
 
 }
+
 
 finally{
 
@@ -58,7 +67,6 @@ setLoading(false);
 fetchReviews();
 
 
-
 },[]);
 
 
@@ -69,11 +77,20 @@ fetchReviews();
 
 if(loading){
 
-return <h3 className="text-center mt-5">
+
+return (
+
+<h3 className="text-center mt-5">
+
 Loading reviews...
+
 </h3>
 
+);
+
 }
+
+
 
 
 
@@ -87,7 +104,7 @@ return(
 
 <h2>
 
-⭐ My Reviews
+My Reviews
 
 </h2>
 
@@ -96,55 +113,138 @@ return(
 
 {
 
-reviews.length===0 ?
+reviews.length === 0 ? (
 
 
-<div className="card p-3 mt-4">
+<div className="review-card mt-4">
+
 
 <h5>No reviews yet</h5>
 
-<p>Your service reviews will appear here.</p>
+
+<p>
+
+Your service reviews will appear here.
+
+</p>
+
 
 </div>
 
 
+)
+
 
 :
 
+
+(
 
 reviews.map((review)=>(
 
 
 <div
 
-className="card p-3 mt-3 shadow-sm"
+className="review-card mt-3"
 
 key={review._id}
 
 >
 
 
+
 <h5>
 
-{review.providerName || "Service Provider"}
+👤 {
+
+review.provider?.userId?.name
+
+||
+
+"Service Provider"
+
+}
 
 </h5>
 
 
 
+
+
 <p>
 
-⭐ {review.rating}/5
+🛠 Service: {
+
+review.provider?.category
+
+||
+
+"Service"
+
+}
 
 </p>
 
 
 
-<p>
+
+
+
+
+<div className="review-stars">
+
+
+{
+
+[1,2,3,4,5].map((star)=>(
+
+
+<Star
+
+key={star}
+
+size={20}
+
+fill={
+star <= review.rating
+? "currentColor"
+: "none"
+}
+
+/>
+
+
+))
+
+}
+
+
+
+
+<span>
+
+{review.rating}/5
+
+</span>
+
+
+
+
+</div>
+
+
+
+
+
+
+<p className="review-comment">
 
 "{review.comment}"
 
 </p>
+
+
+
 
 
 
@@ -154,17 +254,21 @@ key={review._id}
 ))
 
 
+)
+
+
 }
+
 
 
 
 </div>
 
-
 );
 
 
 };
+
 
 
 export default MyReviews;

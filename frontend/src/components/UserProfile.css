@@ -162,3 +162,10 @@ button:hover {
     padding-left: 12px;
     border-radius: 10px;
 }
+
+.profile-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
