@@ -48,7 +48,6 @@ router.post("/", checkAuth, async(req, res) => {
         }
 
 
-
         if (
             booking.userId.toString() !==
             req.user.id.toString()
@@ -94,7 +93,9 @@ router.post("/", checkAuth, async(req, res) => {
             });
 
 
+
         await review.save();
+
 
 
         res.status(201).json({
@@ -108,7 +109,9 @@ router.post("/", checkAuth, async(req, res) => {
 
     } catch (err) {
 
+
         console.log(err);
+
 
         res.status(500).json({
 
@@ -118,10 +121,14 @@ router.post("/", checkAuth, async(req, res) => {
 
         });
 
+
     }
 
 
 });
+
+
+
 
 
 
@@ -167,13 +174,6 @@ router.get(
 
             })
 
-
-            console.log(
-                "AFTER POPULATE:",
-                JSON.stringify(reviews, null, 2)
-            );
-
-
             .sort({
 
                 createdAt: -1
@@ -182,10 +182,19 @@ router.get(
 
 
 
+            console.log(
+                "AFTER POPULATE:",
+                JSON.stringify(reviews, null, 2)
+            );
+
+
+
             res.json(reviews);
 
 
+
         } catch (err) {
+
 
             console.log(err);
 
@@ -232,12 +241,10 @@ router.get(
 
                 })
 
-
             .populate(
                 "user",
                 "name"
             )
-
 
             .sort({
 
@@ -248,6 +255,7 @@ router.get(
 
 
             res.json(reviews);
+
 
 
         } catch (err) {
