@@ -1,63 +1,275 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const checkAuth = require('../middleware/authMiddleware');
-const Review = require('../models/Review');
-const Booking = require('../models/Booking');
 
-// ✅ Create review (only after booking is completed)
-// Create review (Only after booking is completed)
-router.post('/', checkAuth, async (req, res) => {
-  const { providerId, rating, comment, bookingId } = req.body;
-  // console.log('📥 Review POST by user:', req.user.id);
+const checkAuth = require("../middleware/authMiddleware");
 
-  try {
-    const booking = await Booking.findById(bookingId);
-    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
+const Review = require("../models/Review");
+const Booking = require("../models/Booking");
 
-    // console.log('🧾 Booking.userId:', booking.userId?.toString());
-    // console.log('🔐 Authenticated user:', req.user.id);
 
-    if (booking.status !== 'completed') {
-      return res.status(400).json({ msg: 'Review allowed only after completed booking' });
+
+// ===============================
+// CREATE REVIEW
+// ===============================
+
+router.post("/", checkAuth, async(req, res) => {
+
+    try {
+
+        const {
+            providerId,
+            rating,
+            comment,
+            bookingId
+        } = req.body;
+
+
+
+        const booking =
+            await Booking.findById(bookingId);
+
+
+
+        if (!booking) {
+
+            return res.status(404).json({
+                msg: "Booking not found"
+            });
+
+        }
+
+
+
+        if (booking.status !== "completed") {
+
+            return res.status(400).json({
+                msg: "Review allowed only after completed booking"
+            });
+
+        }
+
+
+
+        if (
+            booking.userId.toString() !==
+            req.user.id.toString()
+        ) {
+
+            return res.status(403).json({
+                msg: "You can only review your own booking"
+            });
+
+        }
+
+
+
+
+        const existing =
+            await Review.findOne({
+                booking: bookingId
+            });
+
+
+
+        if (existing) {
+
+            return res.status(400).json({
+                msg: "Review already submitted"
+            });
+
+        }
+
+
+
+
+        const review =
+            new Review({
+
+                user: req.user.id,
+
+                provider: providerId,
+
+                rating,
+
+                comment,
+
+                booking: bookingId
+
+            });
+
+
+
+        await review.save();
+
+
+
+        res.status(201).json({
+
+            msg: "Review submitted successfully",
+
+            review
+
+        });
+
+
+
+    } catch (err) {
+
+
+        console.log(err);
+
+
+        res.status(500).json({
+            msg: "Server error",
+            error: err.message
+        });
+
+
     }
 
-    if (booking.userId.toString() !== req.user.id.toString()) {
-  return res.status(403).json({ msg: 'You can only review your own bookings' });
-}
 
 
-    const existing = await Review.findOne({ booking: bookingId });
-    if (existing) {
-      return res.status(400).json({ msg: 'You already submitted a review for this booking' });
-    }
+});
 
-    const review = new Review({
-      user: req.user.id,
-      provider: providerId,
-      rating,
-      comment,
-      booking: bookingId
+
+
+
+
+
+
+
+
+// ===============================
+// MY REVIEWS
+// ===============================
+
+router.get(
+    "/my-reviews",
+    checkAuth,
+    async(req, res) => {
+
+
+        try {
+
+
+            console.log(
+                "LOGIN USER:",
+                req.user.id
+            );
+
+
+
+            const reviews =
+                await Review.find({
+
+                    user: req.user.id
+
+                })
+
+            .populate("booking")
+
+            .sort({
+
+                createdAt: -1
+
+            });
+
+
+
+            console.log(
+                "REVIEWS FOUND:",
+                reviews
+            );
+
+
+
+            res.json(reviews);
+
+
+
+        } catch (err) {
+
+
+            console.log(err);
+
+
+            res.status(500).json({
+
+                msg: "Server error",
+
+                error: err.message
+
+            });
+
+
+        }
+
+
     });
 
-    await review.save();
-    res.status(201).json({ msg: 'Review submitted successfully', review });
-  } catch (err) {
-    console.error('❌ Server error submitting review:', err.message);
-    res.status(500).json({ msg: 'Server error', error: err.message });
-  }
-});
 
 
-// ✅ Get all reviews for a provider
-router.get('/provider/:providerId', async (req, res) => {
-  try {
-    const reviews = await Review.find({ provider: req.params.providerId })
-      .populate('user', 'name')
-      .sort({ createdAt: -1 });
-    res.json(reviews);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error', error: err.message });
-  }
-});
+
+
+
+
+
+
+// ===============================
+// PROVIDER REVIEWS
+// ===============================
+
+router.get(
+    "/provider/:providerId",
+    async(req, res) => {
+
+
+        try {
+
+
+            const reviews =
+                await Review.find({
+
+                    provider: req.params.providerId
+
+                })
+
+            .populate(
+                "user",
+                "name"
+            )
+
+            .sort({
+
+                createdAt: -1
+
+            });
+
+
+
+            res.json(reviews);
+
+
+
+        } catch (err) {
+
+
+            res.status(500).json({
+
+                msg: "Server error",
+
+                error: err.message
+
+            });
+
+
+        }
+
+
+
+    });
+
+
+
 
 module.exports = router;

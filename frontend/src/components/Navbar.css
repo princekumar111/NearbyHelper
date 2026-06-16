@@ -1,96 +1,324 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+
 /* ================= NAVBAR BASE ================= */
 
-.custom-navbar {
+.nh-navbar {
+    width: 100vw !important;
+    height: 70px !important;
     background-color: hsl(0, 0%, 90%) !important;
+    display: flex;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative;
 }
 
-.custom-navbar .nav-link,
-.custom-navbar .navbar-brand,
-.custom-navbar span {
-    color: #000 !important;
+
+/* ================= MAIN CONTAINER ================= */
+
+.nav-box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 25px;
+    padding-right: 0px;
+    /* 🔥 right side shift */
 }
 
-/* ================= LOCK NAVBAR HEIGHT ================= */
 
-.nh-navbar.navbar {
-    height: 60px !important;
+/* =================  PROFILE RIGHT SIDE ================= */
+
+.profile-icon {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #cfcfcf;
+    background: hsl(0, 0%, 90%);
+    transition: 0.2s;
+}
+
+.profile-icon {
+    margin-left: 8px;
+}
+
+.profile-icon:hover {
+    background: #dcdcdc;
+    transform: scale(1.05);
+}
+
+
+/* =================  PROFILE SHIFT ================= */
+
+.profile-icon {
+    margin-right: -150px;
+    /* right edge ki taraf khechega */
+}
+
+
+/* ================= LOGO FIX ================= */
+
+.logo-wrapper {
+    width: 170px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-left: 20px;
+}
+
+.logo {
+    width: 170px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    /* 🔥 actual logo zoom */
+    transform: scale(1.45);
+    transform-origin: center;
+}
+
+
+/* LOGO PARENT FIX */
+
+.nav-box a {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: flex;
+    align-items: center;
+}
+
+
+/* LOGO WRAPPER FIX */
+
+.nav-box a {
+    height: 55px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+/* ================= LOCATION BOX ================= */
+
+.location-box {
+    margin-left: auto;
+    height: 44px;
+    width: 260px;
+    border: 1px solid #cfcfcf;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    color: #555;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    background: transparent;
+}
+
+
+/* ================= SEARCH ================= */
+
+.search-box {
+    position: relative;
+    height: 44px;
+    width: 280px;
+    border: 1px solid #cfcfcf;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    background: transparent;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+}
+
+
+/* ================= SEARCH DROPDOWN ================= */
+
+.suggest-box {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    width: 100%;
+    background: white;
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+.suggest-box li {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.suggest-box li:hover {
+    background: #f5f5f5;
+}
+
+
+/* ================= PROFILE ================= */
+
+.profile-icon {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #cfcfcf;
+    background: hsl(0, 0%, 90%);
+    transition: 0.2s;
+}
+
+.profile-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.circle:hover,
+.profile-icon:hover {
+    background: #dcdcdc;
+    transform: translateY(-2px);
+}
+
+
+/* ===== BOOTSTRAP NAVBAR FIX ===== */
+
+.navbar {
+    margin-bottom: 0 !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+}
+
+.nh-navbar {
+    border-bottom: none !important;
+    box-shadow: 0 1px 0 #cfcfcf;
+}
+
+.nh-navbar .container {
+    height: 100%;
     display: flex;
     align-items: center;
-
-    /* 🔥 IMPORTANT FIX */
-    overflow: visible !important;
 }
 
-/* ================= BRAND ================= */
 
-.nh-navbar .nh-brand {
-    display: flex;
-    align-items: center;
-    padding: 0 !important;
-    margin-right: 16px;
+/* ================= ROLE TEXT ================= */
+
+.text-dark {
+    color: #111 !important;
 }
 
-.nh-navbar .logo {
-    background-color: hsl(0, 0%, 90%);
-    height: 90px !important;
-    margin-left: -18px;
-    width: auto !important;
-    display: block;
-    object-fit: contain;
-}
-
-/* ================= NAV LINKS ================= */
-
-.nh-navbar .navbar-nav .nav-link {
-    padding: 0 12px !important;
-    line-height: 60px !important;
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.nh-navbar .navbar-nav .nav-item:first-child {
-    margin-left: -10px;
-}
-
-.nh-navbar .navbar-nav .nav-item {
-    margin-right: 12px;
-}
-
-/* ================= SEARCH INPUT ================= */
-
-.nh-navbar .form-control {
-    height: 32px;
-    font-size: 14px;
-    padding: 4px 8px;
-}
-
-/* ================= DROPDOWN FIX ================= */
-
-.list-group {
-    z-index: 9999 !important;
-    position: absolute;
-    background: white;
-    border-radius: 4px;
-}
-
-.list-group-item {
-    cursor: pointer;
-}
-
-.list-group-item:hover {
-    background-color: #f1f1f1;
-}
 
 /* ================= RESPONSIVE ================= */
 
-@media (max-width: 991.98px) {
-    .nh-navbar.navbar {
-        height: 56px !important;
+@media(max-width:992px) {
+    .nh-navbar {
+        height: auto;
+        padding: 15px;
     }
+    .nav-box {
+        flex-wrap: wrap;
+    }
+    .location-box,
+    .search-box {
+        width: 100%;
+    }
+    .logo {
+        height: 60px;
+    }
+}
 
-    .nh-navbar .navbar-nav .nav-link {
-        line-height: 56px !important;
-    }
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ================= FINAL NAVBAR ALIGN FIX ================= */
+
+* {
+    box-sizing: border-box;
+}
+
+.nh-navbar {
+    height: 70px !important;
+    min-height: 70px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: hsl(0, 0%, 90%) !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden !important;
+}
+
+.nav-box {
+    height: 70px !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 25px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+
+/* remove bootstrap spacing */
+
+.navbar,
+.navbar-expand-lg,
+.mb-4 {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+
+/* logo cannot push navbar */
+
+.logo {
+    height: 55px !important;
+    max-height: 55px !important;
+    display: block;
+}
+
+
+/* location/search vertical fix */
+
+.location-box,
+.search-box,
+.circle,
+.profile-icon {
+    flex-shrink: 0;
 }

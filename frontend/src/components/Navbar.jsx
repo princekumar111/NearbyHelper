@@ -1,195 +1,338 @@
 
+
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  MapPin,
+  Search,
+  User
+} from "lucide-react";
+
 import API from '../utils/axios';
 import './Navbar.css';
 
+
 const Navbar = ({ role }) => {
-  const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const dropdownRef = useRef(null);
 
-  /* ---------------- ROLE LINKS ---------------- */
+const navigate = useNavigate();
 
-  const adminLinks = (
-    <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/admin/dashboard">Dashboard</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/admin/users">Manage Users</Link>
-      </li>
-    </>
-  );
+const [search,setSearch] = useState("");
+const [suggestions,setSuggestions] = useState([]);
 
-  const userLinks = (
-    <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/user/dashboard">Dashboard</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/user/bookings">My Booking</Link>
-      </li>
-    </>
-  );
+const dropdownRef = useRef(null);
 
-  const providerLinks = (
-  <>
-    <li className="nav-item">
-      <Link className="nav-link" to="/provider/dashboard">
-        Dashboard
-      </Link>
-    </li>
 
-    {/* <li className="nav-item">
-      <Link className="nav-link" to="/provider/services">
-        My Services
-      </Link>
-    </li> */}
+/* ---------- PROFILE CLICK ---------- */
 
-    <li className="nav-item">
-      <Link className="nav-link" to="/provider/history">
-        Work History
-      </Link>
-    </li>
-  </>
-);
-  /* ---------------- LOGOUT ---------------- */
 
- const handleLogout = () => {
+const handleProfile = ()=>{
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-  localStorage.removeItem("admin");
-  localStorage.removeItem("provider");
+ const token = localStorage.getItem("token");
 
-  navigate("/");
+ if(token){
+
+   navigate("/profile");
+
+ }
+ else{
+
+   navigate("/login");
+
+ }
 
 };
 
-  /* ---------------- AUTO SUGGESTION ---------------- */
 
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (!search.trim()) {
-        setSuggestions([]);
-        return;
-      }
 
-      try {
-        const res = await API.get(`/providers/suggest?q=${search}`);
-        setSuggestions(res.data);
-      } catch (err) {
-        console.error("Suggestion error:", err);
-      }
-    };
 
-    const debounce = setTimeout(fetchSuggestions, 400);
-    return () => clearTimeout(debounce);
-  }, [search]);
+/* ---------- LOGOUT ---------- */
 
-  const handleSelect = (value) => {
-    navigate(`/providers/${value}`);
-    setSearch("");
-    setSuggestions([]);
-  };
 
-  /* ---------------- CLOSE DROPDOWN ON OUTSIDE CLICK ---------------- */
+const handleLogout = ()=>{
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setSuggestions([]);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+localStorage.clear();
 
-  /* ---------------- UI ---------------- */
+navigate("/");
 
-  return (
-    <nav
-      className="navbar navbar-expand-lg mb-4 nh-navbar"
-      style={{ backgroundColor: 'hsl(0, 0%, 90%)' }}
-    >
-      <div className="container">
+};
 
-        {/* Logo */}
-    
-      <Link
-        className="navbar-brand d-flex align-items-center nh-brand"
-        to={
-             role === "admin"
-             ? "/admin/dashboard"
-             : role === "provider"
-             ? "/provider/dashboard"
-             : "/"
-             }
-      >
-  <img
-    src="/service_images/logo.webp"
-    alt="NearbyHelper Logo"
-    className="logo"
-  />
+
+
+
+
+/* ---------- SEARCH SUGGESTION ---------- */
+
+
+useEffect(()=>{
+
+
+const fetchSuggestions = async()=>{
+
+
+if(!search.trim()){
+
+setSuggestions([]);
+return;
+
+}
+
+
+try{
+
+const res = await API.get(
+ `/providers/suggest?q=${search}`
+);
+
+setSuggestions(res.data);
+
+
+}
+catch(err){
+
+console.log(err);
+
+}
+
+
+};
+
+
+const timer=setTimeout(
+fetchSuggestions,
+400
+);
+
+
+return ()=>clearTimeout(timer);
+
+
+},[search]);
+
+
+
+
+
+const handleSelect=(value)=>{
+
+navigate(`/providers/${value}`);
+
+setSearch("");
+
+setSuggestions([]);
+
+};
+
+
+
+
+
+useEffect(()=>{
+
+
+const close=(e)=>{
+
+
+if(
+dropdownRef.current &&
+!dropdownRef.current.contains(e.target)
+){
+
+setSuggestions([]);
+
+}
+
+};
+
+
+document.addEventListener(
+"mousedown",
+close
+);
+
+
+return ()=>document.removeEventListener(
+"mousedown",
+close
+);
+
+
+
+},[]);
+
+
+
+
+
+
+return(
+
+
+<nav className="nh-navbar">
+
+
+<div className="container nav-box">
+
+
+
+{/* LOGO */}
+
+
+<Link 
+ to="/"
+ className="logo-wrapper"
+>
+
+<img
+ src="/service_images/logo.webp"
+ className="logo"
+ alt="logo"
+/>
+
 </Link>
 
-        <div className="collapse navbar-collapse">
 
-          {/* Role Based Links */}
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {role === 'admin' && adminLinks}
-            {role === 'user' && userLinks}
-            {role === 'provider' && providerLinks}
-          </ul>
 
-          {/* 🔍 Search With Dropdown */}
-          <div className="position-relative me-3" ref={dropdownRef} style={{ width: "250px" }}>
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search services..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
 
-            {suggestions.length > 0 && (
-              <ul className="list-group position-absolute w-100 shadow">
-                {suggestions.map((item, index) => (
-                  <li
-                    key={index}
-                    className="list-group-item list-group-item-action"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => handleSelect(item)}
-                  >
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
 
-          {/* Role + Logout */}
-          {role && (
-           <div className="d-flex align-items-center">
-            <span className="text-dark me-3 text-capitalize">
-           Role: <strong>{role}</strong>
-         </span>
+{/* LOCATION*/}
 
-          <button
-           className="btn btn-outline-dark"
-          onClick={handleLogout}
-         >
-          Logout
-        </button>
-      </div>
-    )}
 
-        </div>
-      </div>
-    </nav>
-  );
+<div className="location-box">
+
+
+<MapPin size={20}/>
+
+
+<span>
+
+H37, Block H - Saket - New Delhi
+
+</span>
+
+
+</div>
+
+
+
+
+
+
+{/* SEARCH */}
+
+
+
+<div
+className="search-box"
+ref={dropdownRef}
+>
+
+
+<Search size={22}/>
+
+
+<input
+
+type="text"
+
+placeholder="Search for AC service"
+
+value={search}
+
+onChange={(e)=>
+setSearch(e.target.value)
+}
+
+/>
+
+
+
+
+{
+suggestions.length>0 &&
+
+<ul className="suggest-box">
+
+
+{
+
+suggestions.map((item,index)=>(
+
+
+<li
+
+key={index}
+
+onClick={()=>handleSelect(item)}
+
+>
+
+{item}
+
+</li>
+
+
+))
+
+}
+
+
+</ul>
+
+}
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/* PROFILE ICON */}
+
+
+<div
+
+className="profile-icon"
+
+onClick={handleProfile}
+
+>
+
+
+<User/>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+</nav>
+
+
+);
+
+
 };
+
+
 
 export default Navbar;

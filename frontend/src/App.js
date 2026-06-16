@@ -13,6 +13,8 @@ import UserDashboard from './pages/UserDashboard';
 import BookingPage from './pages/BookingPage';
 import ProvidersList from './pages/ProvidersList';
 import MyBookings from './pages/MyBookings';
+import UserProfile from "./components/UserProfile";
+import MyReviews from "./components/MyReviews";
 
 // 🧰 Provider pages
 import ProviderDashboard from './pages/ProviderDashboard';
@@ -43,7 +45,13 @@ function App() {
         /> <
         Route path = "/login"
         element = { < LoginPage / > }
+        />  <
+        Route path = "/user/reviews"
+        element = { < MyReviews / > }
         /> <
+        Route path = "/profile"
+        element = { < UserProfile / > }
+        /><
         Route path = "/register"
         element = { < RegisterPage / > }
         /> <
