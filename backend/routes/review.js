@@ -149,20 +149,29 @@ router.get(
 
                 })
 
-
             .populate({
 
                 path: "provider",
 
+                model: "ServiceProvider",
+
                 populate: {
 
                     path: "userId",
+
+                    model: "User",
 
                     select: "name email"
 
                 }
 
             })
+
+
+            console.log(
+                "AFTER POPULATE:",
+                JSON.stringify(reviews, null, 2)
+            );
 
 
             .sort({
