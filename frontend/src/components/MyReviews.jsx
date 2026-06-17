@@ -27,11 +27,10 @@ const res = await API.get(
 );
 
 
-console.log(
-"MY REVIEW DATA:",
-res.data
-);
-
+// console.log(
+//  "FIRST PROVIDER:",
+//  res.data[0].provider
+// );
 
 setReviews(res.data);
 
@@ -152,15 +151,12 @@ key={review._id}
 >
 
 
-
 <h5>
 
 👤 {
 
 review.provider?.userId?.name
-
 ||
-
 "Service Provider"
 
 }
@@ -169,16 +165,12 @@ review.provider?.userId?.name
 
 
 
-
-
 <p>
 
 🛠 Service: {
 
 review.provider?.category
-
 ||
-
 "Service"
 
 }
@@ -186,6 +178,18 @@ review.provider?.category
 </p>
 
 
+
+<p>
+
+📞 Contact: {
+
+review.provider?.contact
+||
+"Not available"
+
+}
+
+</p>
 
 
 
@@ -206,9 +210,13 @@ key={star}
 size={20}
 
 fill={
+
 star <= review.rating
+
 ? "currentColor"
+
 : "none"
+
 }
 
 />
@@ -220,7 +228,6 @@ star <= review.rating
 
 
 
-
 <span>
 
 {review.rating}/5
@@ -229,9 +236,7 @@ star <= review.rating
 
 
 
-
 </div>
-
 
 
 
@@ -245,11 +250,7 @@ star <= review.rating
 
 
 
-
-
-
 </div>
-
 
 ))
 
