@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import API from '../utils/axios';
 import Navbar from '../components/Navbar';
 
+
 const ProviderDashboard = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -61,12 +62,18 @@ const ProviderDashboard = () => {
     }
   };
 
-  return (
+ return (
     <>
       <Navbar role="provider" />
-      <div className="container py-4">
-        <h2 className="mb-4">📅 Upcoming Bookings</h2>
 
+      <div className="container py-4">
+
+
+      
+
+        <h2 className="mb-4">
+          📅 Upcoming Bookings
+        </h2>
         {loading ? (
           <p>Loading...</p>
         ) : error ? (

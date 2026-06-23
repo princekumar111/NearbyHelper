@@ -16,6 +16,10 @@ const MyBookings = () => {
   const [reviewData, setReviewData] = useState({});
   const [submittingId, setSubmittingId] = useState(null);
 
+  const loggedUser = JSON.parse(
+  localStorage.getItem("user")
+);
+
   // SAFE HELPERS
   const safeName = (provider) =>
     provider?.userId?.name || provider?.name || "N/A";
@@ -27,26 +31,66 @@ const MyBookings = () => {
   };
 
   // FETCH BOOKINGS
-  const fetchBookings = async () => {
-  try {
-    const res = await API.get("/bookings/user");
 
-    const sortedBookings = (res.data.bookings || []).sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+const fetchBookings = async () => {
 
-    setBookings(sortedBookings);
+  
 
-  } catch {
-    setError("Failed to load your bookings");
-  } finally {
-    setLoading(false);
-  }
+try {
+
+const loggedUser = JSON.parse(
+ localStorage.getItem("user")
+);
+
+let url = "";
+
+
+if(loggedUser.role === "provider"){
+
+ url = "/bookings/provider";
+
+}
+else{
+
+ url = "/bookings/user";
+
+}
+
+
+
+const res = await API.get(url);
+
+
+const sortedBookings = (res.data.bookings || []).sort(
+ (a,b)=> new Date(b.createdAt)-new Date(a.createdAt)
+);
+
+
+setBookings(sortedBookings);
+
+
+}
+
+catch(err){
+
+console.log(err);
+
+setError("Failed to load your bookings");
+
+}
+
+finally{
+
+setLoading(false);
+
+}
+
+
 };
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+useEffect(() => {
+  fetchBookings();
+}, []);
 
   // CANCEL
   const cancelBooking = async (id) => {
@@ -74,14 +118,17 @@ const submitReview = async (booking) => {
   }
 
   const provider =
-    booking.providerId?._id ||
-    booking.providerId ||
-    booking.provider?._id;
+  booking.providerId?._id ||
+  booking.providerId ||
+  booking.provider?._id;
 
-  if (!provider) {
-    alert("Provider not found");
-    return;
-  }
+
+if (!provider) {
+
+ alert("Provider not found");
+ return;
+
+}
 
   try {
     setSubmittingId(booking._id);
@@ -113,7 +160,9 @@ const submitReview = async (booking) => {
 
   return (
     <>
-      <Navbar role="user" />
+      <Navbar 
+  role={JSON.parse(localStorage.getItem("user"))?.role}
+/>
 
       <div className="container py-5">
         <h3 className="mb-4">📋 My Bookings</h3>
@@ -125,10 +174,21 @@ const submitReview = async (booking) => {
           <div className="alert alert-warning">No bookings yet.</div>
         )}
 
-        {bookings.map((booking) => {
-          const provider = booking.provider || booking.providerId || {};
+       {bookings.map((booking) => {
 
-          return (
+  const provider = booking.provider || booking.providerId || {};
+
+  const loggedUser = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  const displayName =
+    loggedUser?.role === "provider"
+      ? booking.userId?.name
+      : safeName(provider);
+
+
+  return (
             <div key={booking._id} className="booking-card card mb-4 shadow-sm">
               <div className="card-body">
                 {/* HEADER */}
@@ -145,7 +205,7 @@ const submitReview = async (booking) => {
                 <div className="row booking-details">
                   <div className="col-md-6">
                     <p>
-                      <strong>Name:</strong> {safeName(provider)}
+                      <strong>Name:</strong> {displayName || "N/A"}
                     </p>
 
                     {/* 📞 CONTACT — ONLY WHEN CONFIRMED */}

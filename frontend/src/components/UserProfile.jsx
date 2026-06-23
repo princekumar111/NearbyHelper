@@ -703,7 +703,21 @@ onClick={()=>setEdit(true)}
 
 className="profile-option"
 
-onClick={()=>navigate("/user/bookings")}
+onClick={() => {
+
+ if(user.role === "provider"){
+
+   navigate("/provider/dashboard");
+
+ }
+
+ else{
+
+   navigate("/user/bookings");
+
+ }
+
+}}
 
 >
 
@@ -715,25 +729,39 @@ onClick={()=>navigate("/user/bookings")}
 
 
 
+{
+user.role !== "provider" && (
 
 <p className="profile-option">
-
 
 <Star size={20}/>
 
  Saved Helpers
 
-
 </p>
 
-
-
+)
+}
 
 <p
 
 className="profile-option"
 
-onClick={()=>navigate("/user/reviews")}
+onClick={() => {
+
+ if(user.role === "provider"){
+
+   navigate("/provider/history");
+
+ }
+
+ else{
+
+   navigate("/user/reviews");
+
+ }
+
+}}
 
 >
 

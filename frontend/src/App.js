@@ -83,7 +83,7 @@ function App() {
         Route path = "/user/bookings"
         element = { <
             PrivateRoute allowedRoles = {
-                ["user"]
+                ["user", "provider"]
             } >
             <
             MyBookings / >
@@ -176,7 +176,7 @@ function App() {
                 ["provider"]
             } >
             <
-            MyProviderProfile / >
+            UserProfile / >
             <
             /PrivateRoute>
         }

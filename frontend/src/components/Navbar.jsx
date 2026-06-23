@@ -452,18 +452,33 @@ close
 
 /* ---------- PROFILE ---------- */
 
-
 const handleProfile = ()=>{
 
 
 const token = localStorage.getItem("token");
 
 
+const user = JSON.parse(
+ localStorage.getItem("user")
+);
 
-if(token){
 
 
-navigate("/profile");
+if(!token){
+
+
+navigate("/login");
+return;
+
+
+}
+
+
+
+if(user?.role === "provider"){
+
+
+navigate("/provider/profile");
 
 
 }
@@ -471,11 +486,10 @@ navigate("/profile");
 else{
 
 
-navigate("/login");
+navigate("/profile");
 
 
 }
-
 
 
 };
