@@ -19,21 +19,35 @@ const sliderItems = [
 
 const UserDashboard = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   //const user = getUserFromToken();
   const navigate = useNavigate();
 
  
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await API.get('/categories');
-        setCategories(res.data);
-      } catch (err) {
-        setError('Failed to load categories.');
-        console.error(err);
-      }
-    };
+const fetchCategories = async () => {
+
+  try {
+
+    setLoading(true);
+
+    const res = await API.get('/categories');
+
+    setCategories(res.data);
+
+  } catch (err) {
+
+    setError('Failed to load categories.');
+    console.error(err);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
     fetchCategories();
   }, []);
 
@@ -64,43 +78,108 @@ const UserDashboard = () => {
 
         <h4 className="mt-5 mb-4">Explore Service Categories</h4>
         <div className="row">
-          {categories.length > 0 ? (
-            categories.map((cat) => {
-              const catName = String(cat?.name || '').toLowerCase();
-              return (
-                <div className="col-md-4 mb-4" key={cat._id}>
-                  <div className="service-card card h-100 shadow-sm text-center">
-                    <div className="card-body d-flex flex-column justify-content-between">
-                      <div>
-                        <img
-                             src={`/service_images/${catName}_image.jpg`}
-                             alt={cat?.name || 'Service'}
-                             className="img-fluid rounded"
-                             loading="lazy"
-                             style={{
-                             height: '200px',
-                             objectFit: 'cover',
-                              width: '100%'
-                              }}
-                            onError={(e) => {
-                              e.currentTarget.src = "/service_images/placeholder.jpg";
-                               }}
-                            />
-                      </div>
-                      <button
-                        className="btn btn-primary mt-4 w-100"
-                        onClick={() => handleBookClick(cat?.name || '')}
-                      >
-                        {cat?.name || 'Service'}s
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <p className="text-muted">No categories available.</p>
-          )}
+       {
+loading ? (
+
+  [...Array(6)].map((_, i)=>(
+
+    <div className="col-md-4 mb-4" key={i}>
+
+      <div className="service-card card h-100 shadow-sm">
+
+        <div className="skeleton-img"></div>
+
+        <div className="card-body">
+
+          <div className="skeleton-text"></div>
+
+          <div className="skeleton-button mt-4"></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  ))
+
+)
+
+:
+
+categories.length > 0 ? (
+
+categories.map((cat)=>{
+
+const catName = String(cat?.name || '').toLowerCase();
+
+return (
+
+<div className="col-md-4 mb-4" key={cat._id}>
+
+<div className="service-card card h-100 shadow-sm text-center">
+
+<div className="card-body d-flex flex-column justify-content-between">
+
+<div>
+
+<img
+src={`/service_images/${catName}_image.jpg`}
+alt={cat?.name || 'Service'}
+className="img-fluid rounded"
+loading="lazy"
+style={{
+height:'200px',
+objectFit:'cover',
+width:'100%'
+}}
+onError={(e)=>{
+e.currentTarget.src="/service_images/placeholder.jpg";
+}}
+/>
+
+</div>
+
+
+<button
+
+className="btn btn-primary mt-4 w-100"
+
+onClick={()=>handleBookClick(cat?.name || '')}
+
+>
+
+{cat?.name || 'Service'}s
+
+</button>
+
+
+</div>
+
+</div>
+
+</div>
+
+)
+
+})
+
+)
+
+:
+
+(
+
+<p className="text-muted">
+
+No categories available.
+
+</p>
+
+)
+
+}
+          
         </div>
       </div>
 

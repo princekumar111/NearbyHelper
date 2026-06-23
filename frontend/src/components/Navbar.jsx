@@ -1,8 +1,6 @@
-
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import {
   MapPin,
   Search,
@@ -13,49 +11,222 @@ import API from '../utils/axios';
 import './Navbar.css';
 
 
+
+
+
+/* ---------- SEARCH PLACEHOLDER WORDS ---------- */
+
+const words = [
+
+"Search for Plumber",
+
+"Search for Electrician",
+
+"Search for Carpenter",
+
+"Search for Mechanic",
+
+"Search for Cleaner",
+
+"Search for Painter"
+
+];
+
+
+
+
+
 const Navbar = ({ role }) => {
+
 
 const navigate = useNavigate();
 
+
 const [search,setSearch] = useState("");
+
 const [suggestions,setSuggestions] = useState([]);
+const [location,setLocation] = useState(
+"Add Location"
+);
+
 
 const dropdownRef = useRef(null);
 
 
-/* ---------- PROFILE CLICK ---------- */
 
 
-const handleProfile = ()=>{
 
- const token = localStorage.getItem("token");
+/* ---------- TYPING PLACEHOLDER ---------- */
 
- if(token){
 
-   navigate("/profile");
 
- }
- else{
+const [placeholder,setPlaceholder] = useState("");
 
-   navigate("/login");
+const [wordIndex,setWordIndex] = useState(0);
 
- }
+const [charIndex,setCharIndex] = useState(0);
+
+const [deleting,setDeleting] = useState(false);
+
+/* ---------- LOAD USER LOCATION FROM LOCAL STORAGE ---------- */
+
+useEffect(()=>{
+
+const savedUser = JSON.parse(
+localStorage.getItem("user")
+);
+
+
+if(savedUser?.location){
+
+setLocation(savedUser.location);
+
+}
+
+
+},[]);
+
+
+const handleLocationClick = ()=>{
+
+
+const token = localStorage.getItem("token");
+
+
+if(token){
+
+
+navigate("/profile");
+
+
+}
+
+else{
+
+
+navigate("/login");
+
+
+}
+
 
 };
 
 
+useEffect(()=>{
 
 
-/* ---------- LOGOUT ---------- */
+const currentWord = words[wordIndex];
 
 
-const handleLogout = ()=>{
 
-localStorage.clear();
+const timer = setTimeout(()=>{
 
-navigate("/");
 
-};
+
+if(!deleting){
+
+
+setPlaceholder(
+
+currentWord.substring(
+0,
+charIndex + 1
+)
+
+);
+
+
+
+setCharIndex(
+charIndex + 1
+);
+
+
+
+
+if(charIndex === currentWord.length){
+
+
+setTimeout(()=>{
+
+
+setDeleting(true);
+
+
+},1200);
+
+
+}
+
+
+
+}
+
+
+
+else{
+
+
+setPlaceholder(
+
+currentWord.substring(
+0,
+charIndex - 1
+)
+
+);
+
+
+
+setCharIndex(
+charIndex - 1
+);
+
+
+
+
+if(charIndex === 0){
+
+
+setDeleting(false);
+
+
+setWordIndex(
+
+(prev)=>
+
+(prev + 1) % words.length
+
+);
+
+
+}
+
+
+}
+
+
+
+
+}, deleting ? 50 : 100);
+
+
+
+
+return ()=>clearTimeout(timer);
+
+
+
+},[
+charIndex,
+deleting,
+wordIndex
+]);
+
+
+
+
 
 
 
@@ -70,41 +241,110 @@ useEffect(()=>{
 const fetchSuggestions = async()=>{
 
 
-if(!search.trim()){
+const query = search.trim().toLowerCase();
+
+
+
+console.log(
+"Typed:",
+query
+);
+
+
+
+if(!query){
+
 
 setSuggestions([]);
+
 return;
+
 
 }
 
 
+
+
 try{
 
+
 const res = await API.get(
- `/providers/suggest?q=${search}`
+
+`/providers/suggest?q=${encodeURIComponent(query)}`
+
 );
+
+
+
+
+console.log(
+"API RESPONSE:",
+JSON.stringify(res.data)
+);
+
+
+
+
+if(Array.isArray(res.data)){
+
 
 setSuggestions(res.data);
 
 
 }
-catch(err){
 
-console.log(err);
+else{
+
+
+setSuggestions([]);
+
 
 }
+
+
+
+
+}
+
+catch(err){
+
+
+console.log(
+
+"SEARCH ERROR:",
+
+err.response?.data || err.message
+
+);
+
+
+
+setSuggestions([]);
+
+
+}
+
 
 
 };
 
 
-const timer=setTimeout(
-fetchSuggestions,
-400
-);
+
+
+
+const timer = setTimeout(()=>{
+
+
+fetchSuggestions();
+
+
+},400);
+
+
 
 
 return ()=>clearTimeout(timer);
+
 
 
 },[search]);
@@ -113,18 +353,43 @@ return ()=>clearTimeout(timer);
 
 
 
+
+
+
+
+
+/* ---------- SELECT SEARCH ---------- */
+
+
 const handleSelect=(value)=>{
 
-navigate(`/providers/${value}`);
+
+navigate(
+
+`/providers/${value.toLowerCase()}`
+
+);
+
+
 
 setSearch("");
 
 setSuggestions([]);
 
+
 };
 
 
 
+
+
+
+
+
+
+
+
+/* ---------- CLOSE DROPDOWN ---------- */
 
 
 useEffect(()=>{
@@ -134,31 +399,90 @@ const close=(e)=>{
 
 
 if(
+
 dropdownRef.current &&
+
 !dropdownRef.current.contains(e.target)
+
 ){
+
 
 setSuggestions([]);
 
+
 }
+
 
 };
 
 
+
+
 document.addEventListener(
+
 "mousedown",
+
 close
+
 );
 
 
+
+
 return ()=>document.removeEventListener(
+
 "mousedown",
+
 close
+
 );
 
 
 
 },[]);
+
+
+
+
+
+
+
+
+
+
+/* ---------- PROFILE ---------- */
+
+
+const handleProfile = ()=>{
+
+
+const token = localStorage.getItem("token");
+
+
+
+if(token){
+
+
+navigate("/profile");
+
+
+}
+
+else{
+
+
+navigate("/login");
+
+
+}
+
+
+
+};
+
+
+
+
 
 
 
@@ -175,19 +499,33 @@ return(
 
 
 
+
+
+
+
 {/* LOGO */}
 
 
-<Link 
- to="/"
- className="logo-wrapper"
+
+<Link
+
+to="/"
+
+className="logo-wrapper"
+
 >
 
+
 <img
- src="/service_images/logo.webp"
- className="logo"
- alt="logo"
+
+src="/service_images/logo.webp"
+
+className="logo"
+
+alt="logo"
+
 />
+
 
 </Link>
 
@@ -195,10 +533,18 @@ return(
 
 
 
-{/* LOCATION*/}
 
 
-<div className="location-box">
+
+
+
+{/* LOCATION */}
+
+
+<div 
+className="location-box"
+onClick={handleLocationClick}
+>
 
 
 <MapPin size={20}/>
@@ -206,7 +552,7 @@ return(
 
 <span>
 
-H37, Block H - Saket - New Delhi
+{location}
 
 </span>
 
@@ -218,29 +564,40 @@ H37, Block H - Saket - New Delhi
 
 
 
+
+
+
 {/* SEARCH */}
 
 
 
 <div
+
 className="search-box"
+
 ref={dropdownRef}
+
 >
 
 
+
 <Search size={22}/>
+
+
 
 
 <input
 
 type="text"
 
-placeholder="Search for AC service"
+placeholder={placeholder}
 
 value={search}
 
 onChange={(e)=>
+
 setSearch(e.target.value)
+
 }
 
 />
@@ -248,13 +605,19 @@ setSearch(e.target.value)
 
 
 
+
+
 {
-suggestions.length>0 &&
+
+
+suggestions.length > 0 &&
+
 
 <ul className="suggest-box">
 
 
 {
+
 
 suggestions.map((item,index)=>(
 
@@ -267,19 +630,26 @@ onClick={()=>handleSelect(item)}
 
 >
 
+
 {item}
+
 
 </li>
 
 
+
 ))
 
+
 }
+
 
 
 </ul>
 
+
 }
+
 
 
 
@@ -297,10 +667,8 @@ onClick={()=>handleSelect(item)}
 
 
 
+{/* PROFILE */}
 
-
-
-{/* PROFILE ICON */}
 
 
 <div
@@ -321,8 +689,10 @@ onClick={handleProfile}
 
 
 
-</div>
 
+
+
+</div>
 
 
 </nav>
@@ -332,6 +702,7 @@ onClick={handleProfile}
 
 
 };
+
 
 
 

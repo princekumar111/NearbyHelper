@@ -10,6 +10,9 @@ const notificationRoutes = require('./routes/notifications');
 const adminRoutes = require('./routes/admin');
 const reviewRoutes = require('./routes/review');
 const categoryRoutes = require('./routes/category');
+// ---------- LOCATION ROUTE IMPORT ----------
+
+const locationRoutes = require("./routes/location");
 dotenv.config();
 // console.log("🌍 ENV CHECK:", {
 //   CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
@@ -28,6 +31,13 @@ app.get('/', (req, res) => {
     res.send('NearbyHelper API is running...');
 });
 
+
+// ---------- LOCATION ROUTE ----------
+
+app.use(
+    "/api/location",
+    locationRoutes
+);
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/providers', providerRoutes);
