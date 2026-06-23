@@ -105,16 +105,13 @@ const response = await API.get(
 
 const data = response.data;
 
-
 setUser(prev=>({
 
 ...prev,
 
-location:data.display_name
+location:data.address
 
 }));
-
-
 }
 
 catch(err){
@@ -316,7 +313,7 @@ console.log("CURRENT ADDRESS:",data);
 
 
 
-if(data && data.display_name){
+if(data && data.address){
 
 
 
@@ -326,7 +323,7 @@ setUser(prev=>({
 ...prev,
 
 
-location:data.display_name
+location:data.address
 
 
 }));
@@ -1004,15 +1001,13 @@ const response = await API.get(
 
 const data = response.data;
 
-
 setUser(prev=>({
 
 ...prev,
 
-location:data.display_name
+location:data.address
 
 }));
-
 
 }
 
