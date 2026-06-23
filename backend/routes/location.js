@@ -51,7 +51,9 @@ router.get("/reverse", async(req, res) => {
 
         console.log(
             "Location API Error:",
-            error.response ? .data || error.message
+            error.response && error.response.data ?
+            error.response.data :
+            error.message
         );
 
 
